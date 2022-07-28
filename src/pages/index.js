@@ -1,5 +1,6 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import "../styles/index.css";
 import DefaultLayout from "../components/defaultLayout";
@@ -8,11 +9,8 @@ import { graphql } from "gatsby";
 import BackgroundImage from "gatsby-background-image";
 const CampBackgroundImage = styled(BackgroundImage)`
   opacity: 1 !important;
-  background-size: cover;
-  background: radial-gradient(
-    rgba(0,0,0,0.25) 0%,
-    rgba(0,0,0,.65) 100%
-  );
+  background: rgba(0,0,0,0.50);
+  background-position: 0% 30%;
   background-size: cover;
 `;
 
@@ -24,11 +22,16 @@ export default function Home({ data }) {
           <CampBackgroundImage
             fluid={data.file.childImageSharp.fluid}
           >
-            <div style={{padding: "10rem"}}>
-              <h1>TSG - Troop 68</h1>
-              <p style={{maxWidth: "35rem"}}>"He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God."</p>
-              <p>- Micah 6:8</p>
-            </div>
+          <Container style={{ display: "flex", minHeight: "50vh", alignItems: "center"}}>
+            <Row>
+              <Col sm={2} />
+              <Col sm={5}>
+                <h1>TSG - Troop 68</h1>
+                <p>"He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God."</p>
+                <p>- Micah 6:8</p>
+              </Col>
+            </Row>
+          </Container>
           </CampBackgroundImage>
         </Row>
       </Container>
