@@ -11,5 +11,5 @@ export default function FullWidthLayout({ children }) {
         { children }
       </Container>
     </BaseLayout>
-  )
+  );
 };
