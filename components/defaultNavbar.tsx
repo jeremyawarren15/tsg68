@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavLink from '../components/navLink'
-import Link from 'next/Link'
+import Link from 'next/link'
 import Navbar from 'react-bootstrap/Navbar';
 import style from "../styles/DefaultNavbar.module.css";
 
