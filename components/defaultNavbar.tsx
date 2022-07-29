@@ -13,8 +13,8 @@ const DefaultNavbar: FunctionComponent = () => {
           <Image
             alt="TSG Shield Logo"
             src="/TSG_shield.png"
-            width="40px"
-            height="40px"
+            width={40}
+            height={40}
           />
           <span className='ms-2'>Troop 68</span>
         </Navbar.Brand>

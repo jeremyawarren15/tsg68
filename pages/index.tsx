@@ -6,6 +6,7 @@ import Layout from '../components/layout'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import CampBackground from '../public/camp.jpg' 
 
 const Home: NextPage = () => {
   return (
@@ -17,8 +18,9 @@ const Home: NextPage = () => {
         <Container fluid ps-0>
           <Row style={{color: "white", position: "relative"}}>
             <Image
+              placeholder='blur'
               alt="Bonfire"
-              src="/camp.jpg"
+              src={CampBackground}
               layout="fill"
               objectFit="cover"
               quality={100}
