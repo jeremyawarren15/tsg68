@@ -1,14 +1,14 @@
-import React from "react";
+import { FunctionComponent } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import "../styles/navbar.css";
+import style from  "../styles/DefaultNavbar.module.css";
 
-export default function DefaultNavbar() {
+const DefaultNavbar: FunctionComponent = () => {
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" style={{backgroundColor: "#d10a1b"}}>
       <Container>
-        <Navbar.Brand href="/">
+        <Navbar.Brand href="/" className={style.brand}>
           <img
             alt="TSG Shield Logo"
             src="TSG_shield.png"
@@ -30,3 +30,5 @@ export default function DefaultNavbar() {
     </Navbar>
   );
 };
+
+export default DefaultNavbar;
