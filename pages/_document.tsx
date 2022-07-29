@@ -1,5 +1,5 @@
 import Document, { Html, Main, NextScript } from 'next/document'
-import Head from 'next/Head'
+import Head from 'next/head'
 
 const MyDocument = () => {
   return (
