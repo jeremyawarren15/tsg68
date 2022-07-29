@@ -13,6 +13,7 @@ const Home: NextPage = () => {
       <Layout>
         <Container fluid>
           <Row style={{ color: "white", position: "relative" }}>
+            <Col>
             <Image
               placeholder='blur'
               alt="Bonfire"
@@ -28,7 +29,6 @@ const Home: NextPage = () => {
             />
             <Container style={{ display: "flex", minHeight: "50vh", alignItems: "center" }}>
               <Row>
-                <Col sm={2} />
                 <Col sm={5}>
                   <h1>TSG - Troop 68</h1>
                   <p>"He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God."</p>
@@ -36,6 +36,7 @@ const Home: NextPage = () => {
                 </Col>
               </Row>
             </Container>
+            </Col>
           </Row>
         </Container>
         <Container className="py-5">
