@@ -1,3 +1,5 @@
 .brand {
     font-family: "Bebas Neue";
+    display: flex;
+    align-items: center;
 }
