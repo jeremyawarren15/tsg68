@@ -41,13 +41,30 @@ const Faq = () => {
               <Accordion.Body>
                 <p>The purpose of the uniform is to teach our sons that our clothes have function and communicate our respect for the things that we are doing when we wear them. The uniforms are designed with this in mind. For a full philosophy on the uniforms, you should read the <a href="https://troopsofsaintgeorge.org/wp-content/uploads/2020/02/2020-02-09-TSG-Uniform-Guidelines.pdf">Uniform Guidelines</a>.</p>
                 <p>
-                  The minimum required uniform for each person is to have a Class A Shirt and Pants and a Class B Shirt. You can get them from the Troops of Saint George website. Here are the required uniform items.
+                  The minimum required uniform for each person is to have a Class A Shirt and Pants and a Class B Shirt. You can get them from the Troops of Saint George website.
                 </p>
+                <h2>Class A Uniform</h2>
+                <p className="text-muted">Worn for Mass, processions, and troop events.</p>
                 <ul>
                   <li><a href="https://troopsofsaintgeorge.org/product/tsg-class-a-shirt/">Class A Shirt</a></li>
                   <li><a href="https://troopsofsaintgeorge.org/product/tsg-class-a-pants/">Class A Pants</a></li>
-                  <li><a href="https://troopsofsaintgeorge.org/product/tsg-class-b-t-shirt/">Class B T-Shirt</a> or <a href="https://troopsofsaintgeorge.org/product/tsg-class-b-t-shirt-alternate/">Class B T-Shirt Alternate</a> for general use or for an undershirt for the Class A Shirt.</li>
+                  <li><a href="https://troopsofsaintgeorge.org/product/tsg-class-b-t-shirt/">Class B T-Shirt</a> or <a href="https://troopsofsaintgeorge.org/product/tsg-class-b-t-shirt-alternate/">Class B T-Shirt Alternate</a> for an undershirt for the Class A Shirt.</li>
                   <li><a href="https://troopsofsaintgeorge.org/product/tsg-class-a-shorts/">Class A Shorts (Optional)</a></li>
+                  <li><a href="https://troopsofsaintgeorge.org/product/tsg-boonie-hat/">Boonie Hat (Optional)</a></li>
+                  <li>Knife</li>
+                  <li>Pen</li>
+                  <li>Rosary</li>
+                  <li>Black (or Brown) leather or web belt with optional knife scabbard</li>
+                  <li>Olive drab socks (or other dark color)</li>
+                  <li>Black (or Brown) Boots</li>
+                </ul>
+                <h2>Class B Uniform</h2>
+                <p className="text-muted">Considered a "work" uniform. The main difference between this and the class A uniform is the lack of the Class A Shirt and the optional ball cap.</p>
+                <ul>
+                  <li><a href="https://troopsofsaintgeorge.org/product/tsg-class-b-t-shirt/">Class B T-Shirt</a> or <a href="https://troopsofsaintgeorge.org/product/tsg-class-b-t-shirt-alternate/">Class B T-Shirt Alternate</a> for general use or for an undershirt for the Class A Shirt.</li>
+                  <li><a href="https://troopsofsaintgeorge.org/product/tsg-class-a-pants/">Class A Pants</a></li>
+                  <li><a href="https://troopsofsaintgeorge.org/product/tsg-class-a-shorts/">Class A Shorts (Optional)</a></li>
+                  <li><a href="https://troopsofsaintgeorge.org/product/tsg-boonie-hat/">Boonie Hat (Optional)</a> or <a href="https://troopsofsaintgeorge.org/product/tsg-ballcap/">TSG ball cap (Optional)</a></li>
                   <li>Knife</li>
                   <li>Pen</li>
                   <li>Rosary</li>
