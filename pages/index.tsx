@@ -11,7 +11,11 @@ const Home: NextPage = () => {
   return (
     <>
       <Layout>
-        <FullWidthImageContainer image={campBackground}>
+        <FullWidthImageContainer
+          image={campBackground}
+          quality={65}
+          alt="Bonfire"
+        >
           <Row>
             <Col sm={5}>
                 <h1>TSG - Troop 68</h1>
@@ -22,9 +26,7 @@ const Home: NextPage = () => {
         </FullWidthImageContainer>
         <Container className="py-5">
           <Row>
-            <h2>What is Troops of Saint George?</h2>
-            <p>Pulling from the Troops of Saint George website</p>
-            <p>"The Troops of Saint George is a fraternal Catholic nonprofit apostolate for priests, men, and young men looking for a life of adventure coupled with virtue."</p>
+            <h2>Welcome</h2>
             <p>Troop 68 is the first troop in the Indianapolis area for Troops of Saint George. Our home parish is St. John the Evangelist Catholic Church in downtown Indianapolis, but we are open to members from other parishes at this time.</p>
 
             <h2>Troops of St. George Mission Statement</h2>
