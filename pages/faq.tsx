@@ -9,7 +9,7 @@ const Faq = () => {
       <Container className="my-4">
         <Row>
           <h1>FAQs</h1>
-          <p>Here is a list of questions that we frequently get from people. If you have any questions about Troop 68 you are welcome to email <a href="mailto:jeremy@tsg68.org">jeremy@tsg68.org</a> or <a href="mailto:micah@tsg68.org">micah@tsg68.org</a>.</p>
+          <p>Here is a list of questions that we frequently get from people. If you have any questions about Troop 68 you are welcome to email <a href="mailto:jeremy@tsg68.org">jeremy@tsg68.org</a>.</p>
         </Row>
         <Row>
           <Accordion>
