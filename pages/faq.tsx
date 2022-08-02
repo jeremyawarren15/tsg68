@@ -39,7 +39,7 @@ const Faq = () => {
             <Accordion.Item eventKey="2">
               <Accordion.Header>Where do we get uniforms?</Accordion.Header>
               <Accordion.Body>
-                <p>The purpose of a uniform is to teach our sons that our clothes have a function and communicate our respect for the things that we are doing when we wear them. The Troops of St. George uniform is designed with this in mind. For a full philosophy on the uniforms, you should read the <a href="https://troopsofsaintgeorge.org/wp-content/uploads/2020/02/2020-02-09-TSG-Uniform-Guidelines.pdf">Uniform Guidelines</a>.</p>
+                <p>The purpose of a uniform is to teach our sons that our clothes have a function and communicate our respect for the things that we are doing when we wear them. The Troops of St. George uniform was designed with this in mind. For a full philosophy on the uniforms, you should read the <a href="https://troopsofsaintgeorge.org/wp-content/uploads/2020/02/2020-02-09-TSG-Uniform-Guidelines.pdf">Uniform Guidelines</a>.</p>
                 <p>
                   The minimum required uniform for each person is to have a Class A Shirt and Pants and a Class B Shirt. You can get them from the Troops of Saint George website.
                 </p>
