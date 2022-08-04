@@ -39,18 +39,21 @@ const Home: NextPage<Props> = ({ posts }) => {
             </Col>
           </Row>
         </FullWidthImageContainer>
-        <Container className="py-5">
+        <Container className="pt-3">
           <Row>
             <h2>Welcome</h2>
             <p>Troop 68 is the first troop in the Indianapolis area for Troops of Saint George. Our home parish is St. John the Evangelist Catholic Church in downtown Indianapolis, but we are open to members from other parishes at this time.</p>
-
-            <h2>Troops of St. George Mission Statement</h2>
-            <p>"The Troops of Saint George apostolate aims to use the outdoors as our canvas and the sacraments as our path to light the way for the formation of Holy Catholic men and boys. Whether called to the vocation of the priesthood, the religious life, or that of Holy fatherhood, our fathers and sons will take a prayerful pilgrimage together to fulfill Christ's desire for them to grow in virtue and in their Holy Catholic faith as they journey toward heaven."</p>
           </Row>
         </Container>
-        <Container className='pb-5'>
+        <Container className="pb-3">
           <h2>Upcoming Events</h2>
-          {posts.map((post, index) => <PostCard post={post} key={post.slug} />)}
+          <Row>
+            {posts.map((post, index) => (
+              <Col sm={4} key={post.slug}>
+                <PostCard post={post} />
+              </Col>
+            ))}
+          </Row>
         </Container>
       </Layout>
     </>
