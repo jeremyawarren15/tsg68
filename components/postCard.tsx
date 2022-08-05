@@ -17,7 +17,7 @@ const PostCard: FunctionComponent<Props> = ({ post: { frontMatter, slug } }) => 
     <Card className="bg-light">
       <Card.Body>
         <Card.Title>{frontMatter.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{frontMatter.date}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">{new Date(frontMatter.date).toDateString()}</Card.Subtitle>
         <Card.Text>{frontMatter.description}</Card.Text>
         <Link href={"/events/" + slug} passHref>
           <Card.Link>Read More</Card.Link>
