@@ -25,10 +25,13 @@ const DefaultNavbar: FunctionComponent = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link href="https://troopsofsaintgeorge.org/wp-content/uploads/2020/09/2020-09-28-TSG-Officers-Manual-2020-Ed.pdf">Officer's Manual</Nav.Link>
+            <NavLink href="/events">Events</NavLink>
           </Nav>
           <Nav>
             <NavLink href="/faq">FAQs</NavLink>
+          </Nav>
+          <Nav>
+            <NavLink href="/about">About</NavLink>
           </Nav>
           <Nav>
             <Nav.Link href="https://docs.google.com/forms/d/e/1FAIpQLScvqY4kwtT_bvMHGplOFZ7YYS8KayHzdocagW_HN0TrpraruQ/viewform?usp=sf_link">Register</Nav.Link>

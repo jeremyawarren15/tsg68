@@ -6,8 +6,34 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import campBackground from '../public/camp.jpg'
 import FullWidthImageContainer from '../components/fullWidthImageContainer'
+import PostCard from '../components/postCard';
+import Link from 'next/link'
 
-const Home: NextPage = () => {
+import fs from 'fs'
+import path from 'path'
+import matter from 'gray-matter'
+
+type Props = {
+  posts: {
+    frontMatter: {
+      [key: string]: any
+    },
+    slug: string
+  }[]
+};
+
+const Home: NextPage<Props> = ({ posts }) => {
+
+  const renderPosts = () => {
+    if (posts.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
+
+    return posts.map((post, index) => (
+      <Col sm={4} key={post.slug} className="mb-3">
+        <PostCard post={post} />
+      </Col>
+    ))
+  };
+
   return (
     <>
       <Layout>
@@ -24,18 +50,44 @@ const Home: NextPage = () => {
             </Col>
           </Row>
         </FullWidthImageContainer>
-        <Container className="py-5">
+        <Container className="pt-3">
           <Row>
             <h2>Welcome</h2>
             <p>Troop 68 is the first troop in the Indianapolis area for Troops of Saint George. Our home parish is St. John the Evangelist Catholic Church in downtown Indianapolis, but we are open to members from other parishes at this time.</p>
-
-            <h2>Troops of St. George Mission Statement</h2>
-            <p>"The Troops of Saint George apostolate aims to use the outdoors as our canvas and the sacraments as our path to light the way for the formation of Holy Catholic men and boys. Whether called to the vocation of the priesthood, the religious life, or that of Holy fatherhood, our fathers and sons will take a prayerful pilgrimage together to fulfill Christ's desire for them to grow in virtue and in their Holy Catholic faith as they journey toward heaven."</p>
+          </Row>
+        </Container>
+        <Container className="pb-3">
+          <Link href="/events"><h2>Upcoming Events</h2></Link>
+          <Row>
+            {renderPosts()}
           </Row>
         </Container>
       </Layout>
     </>
   )
+}
+
+export const getStaticProps = async () => {
+  const files = fs.readdirSync(path.join('events'))
+  const posts =
+    files
+      .map(filename => {
+        const markdownWithMeta = fs.readFileSync(path.join('events', filename), 'utf-8')
+        const { data: frontMatter } = matter(markdownWithMeta)
+        return {
+          frontMatter,
+          slug: filename.split('.')[0]
+        }
+      })
+      .sort((a, b) => new Date(a.frontMatter.date).getTime() - new Date(b.frontMatter.date).getTime())
+      .filter(post => new Date(post.frontMatter.date) > new Date())
+      .slice(0,3)
+
+  return {
+    props: {
+      posts
+    }
+  }
 }
 
 export default Home
