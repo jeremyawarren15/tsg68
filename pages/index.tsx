@@ -3,11 +3,11 @@ import styles from '../styles/Home.module.css'
 import Layout from '../components/layout'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col'
 import campBackground from '../public/camp.jpg'
 import FullWidthImageContainer from '../components/fullWidthImageContainer'
 import PostCard from '../components/postCard';
+import Link from 'next/link'
 
 import fs from 'fs'
 import path from 'path'
@@ -23,7 +23,7 @@ type Props = {
 };
 
 const Home: NextPage<Props> = ({ posts }) => {
-  
+
   const renderPosts = () => {
     if (posts.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
@@ -57,7 +57,7 @@ const Home: NextPage<Props> = ({ posts }) => {
           </Row>
         </Container>
         <Container className="pb-3">
-          <h2>Upcoming Events</h2>
+          <Link href="/events"><h2>Upcoming Events</h2></Link>
           <Row>
             {renderPosts()}
           </Row>
@@ -69,7 +69,7 @@ const Home: NextPage<Props> = ({ posts }) => {
 
 export const getStaticProps = async () => {
   const files = fs.readdirSync(path.join('events'))
-  const allPosts =
+  const posts =
     files
       .map(filename => {
         const markdownWithMeta = fs.readFileSync(path.join('events', filename), 'utf-8')
@@ -80,10 +80,8 @@ export const getStaticProps = async () => {
         }
       })
       .sort((a, b) => new Date(a.frontMatter.date).getTime() - new Date(b.frontMatter.date).getTime())
+      .filter(post => new Date(post.frontMatter.date) > new Date())
       .slice(0,3)
-
-  // returns only events that have a date that hasn't happened yet
-  const posts = allPosts.filter(post => new Date(post.frontMatter.date) > new Date());
 
   return {
     props: {
