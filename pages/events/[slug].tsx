@@ -8,6 +8,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FunctionComponent } from 'react';
+import { GetStaticProps } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 
 type Props = {
     frontMatter: any,
@@ -47,7 +49,12 @@ export const getStaticPaths = async () => {
     }
   }
 
-  export const getStaticProps = async ({ params: { slug } }) => {
+  interface IParams extends ParsedUrlQuery {
+      slug: string
+  }
+
+  export const getStaticProps:GetStaticProps = async (context) => {
+    const {slug} = context.params as IParams;
     const markdownWithMeta = fs.readFileSync(path.join('events',
       slug + '.mdx'), 'utf-8')
     const { data: frontMatter, content } = matter(markdownWithMeta)
