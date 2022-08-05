@@ -23,6 +23,17 @@ type Props = {
 };
 
 const Home: NextPage<Props> = ({ posts }) => {
+  
+  const renderPosts = () => {
+    if (posts.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
+
+    return posts.map((post, index) => (
+      <Col sm={4} key={post.slug} className="mb-3">
+        <PostCard post={post} />
+      </Col>
+    ))
+  };
+
   return (
     <>
       <Layout>
@@ -48,11 +59,7 @@ const Home: NextPage<Props> = ({ posts }) => {
         <Container className="pb-3">
           <h2>Upcoming Events</h2>
           <Row>
-            {posts.map((post, index) => (
-              <Col sm={4} key={post.slug}>
-                <PostCard post={post} />
-              </Col>
-            ))}
+            {renderPosts()}
           </Row>
         </Container>
       </Layout>
@@ -62,14 +69,22 @@ const Home: NextPage<Props> = ({ posts }) => {
 
 export const getStaticProps = async () => {
   const files = fs.readdirSync(path.join('events'))
-  const posts = files.map(filename => {
-    const markdownWithMeta = fs.readFileSync(path.join('events', filename), 'utf-8')
-    const { data: frontMatter } = matter(markdownWithMeta)
-    return {
-      frontMatter,
-      slug: filename.split('.')[0]
-    }
-  })
+  const allPosts =
+    files
+      .map(filename => {
+        const markdownWithMeta = fs.readFileSync(path.join('events', filename), 'utf-8')
+        const { data: frontMatter } = matter(markdownWithMeta)
+        return {
+          frontMatter,
+          slug: filename.split('.')[0]
+        }
+      })
+      .sort((a, b) => new Date(a.frontMatter.date).getTime() - new Date(b.frontMatter.date).getTime())
+      .slice(0,3)
+
+  // returns only events that have a date that hasn't happened yet
+  const posts = allPosts.filter(post => new Date(post.frontMatter.date) > new Date());
+
   return {
     props: {
       posts
