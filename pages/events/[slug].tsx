@@ -23,7 +23,7 @@ const EventPage: FunctionComponent<Props> = ({frontMatter: { title, date }, slug
             <Container className='my-4'>
                 <Row>
                     <h1>{title}</h1>
-                    <h3 className='text-muted'>{new Date().toDateString()}</h3>
+                    <h3 className='text-muted'>{new Date(date).toDateString()}</h3>
                     <hr />
                 </Row>
                 <Row>
