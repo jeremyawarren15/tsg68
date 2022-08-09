@@ -9,25 +9,19 @@ import FullWidthImageContainer from '../components/fullWidthImageContainer'
 import PostCard from '../components/postCard';
 import Link from 'next/link'
 
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import { EventType } from '../types/EventType';
+import { getAllEventsAsc } from '../services/eventServices';
 
 type Props = {
-  posts: {
-    frontMatter: {
-      [key: string]: any
-    },
-    slug: string
-  }[]
+  upcomingEvents: EventType[]
 };
 
-const Home: NextPage<Props> = ({ posts }) => {
+const Home: NextPage<Props> = ({ upcomingEvents }) => {
 
   const renderPosts = () => {
-    if (posts.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
+    if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
-    return posts.map((post, index) => (
+    return upcomingEvents.map((post) => (
       <Col sm={4} key={post.slug} className="mb-3">
         <PostCard post={post} />
       </Col>
@@ -44,9 +38,9 @@ const Home: NextPage<Props> = ({ posts }) => {
         >
           <Row>
             <Col sm={5}>
-                <h1>TSG - Troop 68</h1>
-                <p>"He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God."</p>
-                <p>- Micah 6:8</p>
+              <h1>TSG - Troop 68</h1>
+              <p>"He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God."</p>
+              <p>- Micah 6:8</p>
             </Col>
           </Row>
         </FullWidthImageContainer>
@@ -68,24 +62,15 @@ const Home: NextPage<Props> = ({ posts }) => {
 }
 
 export const getStaticProps = async () => {
-  const files = fs.readdirSync(path.join('events'))
-  const posts =
-    files
-      .map(filename => {
-        const markdownWithMeta = fs.readFileSync(path.join('events', filename), 'utf-8')
-        const { data: frontMatter } = matter(markdownWithMeta)
-        return {
-          frontMatter,
-          slug: filename.split('.')[0]
-        }
-      })
-      .sort((a, b) => new Date(a.frontMatter.date).getTime() - new Date(b.frontMatter.date).getTime())
-      .filter(post => new Date(post.frontMatter.date) > new Date())
+  const events = await getAllEventsAsc()
+  const upcomingEvents =
+    events
+      .filter(event => new Date(event.eventDate) > new Date())
       .slice(0,3)
 
   return {
     props: {
-      posts
+      upcomingEvents
     }
   }
 }

@@ -1,24 +1,19 @@
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
+import { EventType } from '../types/EventType';
 
 type Props = {
-  post: {
-    frontMatter: {
-      [key: string]: any
-    },
-    slug: string
-  }
+  post: EventType
 };
 
-const PostCard: FunctionComponent<Props> = ({ post: { frontMatter, slug } }) => {
+const PostCard: FunctionComponent<Props> = ({ post: { title, eventDate , description, slug}}) => {
   return (
     <Card className="bg-light">
       <Card.Body>
-        <Card.Title>{frontMatter.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{new Date(frontMatter.date).toDateString()}</Card.Subtitle>
-        <Card.Text>{frontMatter.description}</Card.Text>
+        <Card.Title>{title}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{new Date(eventDate).toDateString()}</Card.Subtitle>
+        <Card.Text>{description}</Card.Text>
         <Link href={"/events/" + slug} passHref>
           <Card.Link>Read More</Card.Link>
         </Link>
