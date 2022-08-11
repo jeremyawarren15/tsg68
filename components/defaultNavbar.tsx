@@ -6,12 +6,13 @@ import NavLink from '../components/navLink'
 import Link from 'next/link'
 import Navbar from 'react-bootstrap/Navbar';
 import style from "../styles/DefaultNavbar.module.css";
+import { Routes } from "../constants/routes";
 
 const DefaultNavbar: FunctionComponent = () => {
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: "#d10a1b" }}>
       <Container>
-        <Link href="/" passHref>
+        <Link href={Routes.Home} passHref>
           <Navbar.Brand className={style.brand}>
             <Image
               alt="TSG Shield Logo"
@@ -25,13 +26,13 @@ const DefaultNavbar: FunctionComponent = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
-            <NavLink href="/events">Events</NavLink>
+            <NavLink href={Routes.Events}>Events</NavLink>
           </Nav>
           <Nav>
-            <NavLink href="/faq">FAQs</NavLink>
+            <NavLink href={Routes.Faq}>FAQs</NavLink>
           </Nav>
           <Nav>
-            <NavLink href="/about">About</NavLink>
+            <NavLink href={Routes.About}>About</NavLink>
           </Nav>
           <Nav>
             <Nav.Link href="https://docs.google.com/forms/d/e/1FAIpQLScvqY4kwtT_bvMHGplOFZ7YYS8KayHzdocagW_HN0TrpraruQ/viewform?usp=sf_link">Register</Nav.Link>

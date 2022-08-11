@@ -8,6 +8,7 @@ import campBackground from '../public/camp.jpg'
 import FullWidthImageContainer from '../components/fullWidthImageContainer'
 import PostCard from '../components/postCard';
 import Link from 'next/link'
+import { Routes } from '../constants/routes';
 
 import { EventType } from '../types/EventType';
 import { getAllEventsAsc } from '../services/eventServices';
@@ -51,7 +52,7 @@ const Home: NextPage<Props> = ({ upcomingEvents }) => {
           </Row>
         </Container>
         <Container className="pb-3">
-          <Link href="/events"><h2>Upcoming Events</h2></Link>
+          <Link href={Routes.Events}><h2>Upcoming Events</h2></Link>
           <Row>
             {renderPosts()}
           </Row>

@@ -9,6 +9,8 @@ import { GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { getAllEvents, getEvent } from '../../services/eventServices';
 import { EventType } from '../../types/EventType';
+import { Routes } from '../../constants/routes';
+import Link from 'next/link';
 
 type Props = {
   event: EventType,
@@ -20,6 +22,7 @@ const EventPage: FunctionComponent<Props> = ({ event: { title, eventDate }, mdxS
     <Layout>
       <Container className='my-4'>
         <Row>
+          <Link href={Routes.Events}>Back</Link>
           <h1>{title}</h1>
           <h3 className='text-muted'>{new Date(eventDate).toDateString()}</h3>
           <hr />
