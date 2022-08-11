@@ -1,9 +1,7 @@
 import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import Layout from "../../components/layout";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Col, Row } from 'react-bootstrap';
 import { FunctionComponent } from 'react';
 import { GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
@@ -11,6 +9,7 @@ import { getAllEvents, getEvent } from '../../services/eventServices';
 import { EventType } from '../../types/EventType';
 import { Routes } from '../../constants/routes';
 import Link from 'next/link';
+import { getFormattedDate } from '../../services/timeServices';
 
 type Props = {
   event: EventType,
@@ -24,7 +23,7 @@ const EventPage: FunctionComponent<Props> = ({ event: { title, eventDate }, mdxS
         <Row>
           <Link href={Routes.Events}>Back</Link>
           <h1>{title}</h1>
-          <h3 className='text-muted'>{new Date(eventDate).toDateString()}</h3>
+          <h3 className='text-muted'>{getFormattedDate(eventDate)}</h3>
           <hr />
         </Row>
         <Row>
