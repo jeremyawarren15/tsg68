@@ -1,7 +1,5 @@
 import Layout from "../components/layout"
-import Accordion from 'react-bootstrap/Accordion'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
+import { Accordion, Container, Row } from 'react-bootstrap'
 
 const Faq = () => {
   return (

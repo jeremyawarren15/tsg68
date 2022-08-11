@@ -1,10 +1,8 @@
 import { FunctionComponent } from 'react';
 import Image from 'next/image';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+import { Nav, Navbar, Container } from 'react-bootstrap';
 import NavLink from '../components/navLink'
 import Link from 'next/link'
-import Navbar from 'react-bootstrap/Navbar';
 import style from "../styles/DefaultNavbar.module.css";
 import { Routes } from "../constants/routes";
 

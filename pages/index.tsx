@@ -1,9 +1,6 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Home.module.css'
 import Layout from '../components/layout'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import { Container, Row, Col } from 'react-bootstrap'
 import campBackground from '../public/camp.jpg'
 import FullWidthImageContainer from '../components/fullWidthImageContainer'
 import PostCard from '../components/postCard';
