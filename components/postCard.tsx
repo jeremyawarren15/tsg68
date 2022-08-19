@@ -1,7 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import { FunctionComponent } from 'react';
-import { EventType } from '../types/EventType';
+import EventType from '../types/EventType';
 import { Routes } from '../constants/routes';
 import { getFormattedDate } from '../services/timeServices';
 
