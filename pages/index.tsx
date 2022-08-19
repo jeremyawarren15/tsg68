@@ -7,7 +7,7 @@ import PostCard from '../components/postCard';
 import Link from 'next/link'
 import { Routes } from '../constants/routes';
 
-import { EventType } from '../types/EventType';
+import EventType from '../types/EventType';
 import { getAllEventsAsc } from '../services/eventServices';
 
 type Props = {
@@ -69,7 +69,8 @@ export const getStaticProps = async () => {
   return {
     props: {
       upcomingEvents
-    }
+    },
+    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
   }
 }
 

@@ -4,7 +4,7 @@ import PostCard from '../../components/postCard';
 
 import { getAllEventsAsc } from '../../services/eventServices';
 import Layout from '../../components/layout';
-import { EventType } from '../../types/EventType';
+import EventType from '../../types/EventType';
 
 type Props = {
   upcomingEvents: EventType[]
@@ -62,7 +62,8 @@ export const getStaticProps = async () => {
     props: {
       upcomingEvents,
       expiredEvents
-    }
+    },
+    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
   }
 }
 

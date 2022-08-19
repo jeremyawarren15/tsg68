@@ -1,34 +1,30 @@
-import { serialize } from 'next-mdx-remote/serialize'
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import Layout from "../../components/layout";
 import { Container, Col, Row } from 'react-bootstrap';
-import { FunctionComponent } from 'react';
-import { GetStaticProps } from 'next'
+import { NextPage, GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { getAllEvents, getEvent } from '../../services/eventServices';
-import { EventType } from '../../types/EventType';
-import { Routes } from '../../constants/routes';
-import Link from 'next/link';
+import EventType from '../../types/EventType';
 import { getFormattedDate } from '../../services/timeServices';
+import ReactMarkdown from 'react-markdown';
 
 type Props = {
-  event: EventType,
-  mdxSource: MDXRemoteSerializeResult
+  event: EventType
 }
 
-const EventPage: FunctionComponent<Props> = ({ event: { title, eventDate }, mdxSource}) => {
+const EventPage: NextPage<Props> = ({ event: { title, eventDate, body }}) => {
   return (
     <Layout>
       <Container className='my-4'>
         <Row>
-          <Link href={Routes.Events}>Back</Link>
           <h1>{title}</h1>
           <h3 className='text-muted'>{getFormattedDate(eventDate)}</h3>
           <hr />
         </Row>
         <Row>
           <Col sm={8}>
-            <MDXRemote {...mdxSource}  />
+            <ReactMarkdown>
+              { body }
+            </ReactMarkdown>
           </Col>
         </Row>
       </Container>
@@ -52,13 +48,12 @@ interface IParams extends ParsedUrlQuery {
 export const getStaticProps:GetStaticProps = async (context) => {
   const {slug} = context.params as IParams;
   const event = await getEvent(slug);
-  const mdxSource = await serialize(event.body);
 
   return {
     props: {
-      event,
-      mdxSource
-    }
+      event
+    },
+    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
   }
 }
 

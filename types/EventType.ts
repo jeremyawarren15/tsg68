@@ -1,4 +1,4 @@
-export type EventType = {
+type EventType = {
   title: string,
   slug: string,
   description: string,
@@ -6,3 +6,5 @@ export type EventType = {
   eventDate: Date,
   publishDate: Date
 };
+
+export default EventType;

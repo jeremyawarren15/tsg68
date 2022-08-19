@@ -1,28 +1,5 @@
-import { createClient } from 'contentful';
-import { EventType } from '../types/EventType';
-import matter from 'gray-matter';
-
-const getClient = () => {
-  return createClient({
-    space: process.env.CONTENTFUL_SPACE_ID as string,
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN as string
-  });
-}
-
-type MapFieldsType = {
-  fields: EventType
-}
-
-const mapFields = ({fields: {title, description, body, publishDate, eventDate, slug}}: MapFieldsType) => {
-  return {
-    title,
-    publishDate,
-    eventDate,
-    slug,
-    description: matter(description).content,
-    body: matter(body).content,
-  }
-}
+import EventType from '../types/EventType';
+import getClient from '../services/contentfulService';
 
 export const getEvent = async (slug: string) => {
   const client = getClient();
@@ -32,16 +9,15 @@ export const getEvent = async (slug: string) => {
     'fields.slug': slug
   });
 
-  return items.map(mapFields)[0];
+  return items[0].fields;
 };
 
 export const getAllEvents = async () => {
   const client = getClient();
 
   const { items } = await client.getEntries<EventType>({content_type: "events"});
-  const events = items.map(mapFields);
 
-  return events;
+  return items.map((item) => item.fields);
 };
 
 export const getAllEventsDesc = async () => {
