@@ -65,6 +65,9 @@ export const getStaticProps = async () => {
     events
       .filter(event => new Date(event.eventDate) > new Date())
       .slice(0,3)
+      .sort(function (a, b) {
+        return  new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
+      });
 
   return {
     props: {
