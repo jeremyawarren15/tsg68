@@ -1,15 +1,13 @@
 import type { NextPage } from 'next'
-import styles from '../styles/Home.module.css'
 import Layout from '../components/layout'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import { Container, Row, Col } from 'react-bootstrap'
 import campBackground from '../public/camp.jpg'
 import FullWidthImageContainer from '../components/fullWidthImageContainer'
 import PostCard from '../components/postCard';
 import Link from 'next/link'
+import { Routes } from '../constants/routes';
 
-import { EventType } from '../types/EventType';
+import EventType from '../types/EventType';
 import { getAllEventsAsc } from '../services/eventServices';
 
 type Props = {
@@ -51,7 +49,7 @@ const Home: NextPage<Props> = ({ upcomingEvents }) => {
           </Row>
         </Container>
         <Container className="pb-3">
-          <Link href="/events"><h2>Upcoming Events</h2></Link>
+          <Link href={Routes.Events}><h2>Upcoming Events</h2></Link>
           <Row>
             {renderPosts()}
           </Row>
@@ -67,11 +65,15 @@ export const getStaticProps = async () => {
     events
       .filter(event => new Date(event.eventDate) > new Date())
       .slice(0,3)
+      .sort(function (a, b) {
+        return  new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
+      });
 
   return {
     props: {
       upcomingEvents
-    }
+    },
+    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
   }
 }
 

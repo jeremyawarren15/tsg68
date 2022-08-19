@@ -1,8 +1,8 @@
-import { FunctionComponent } from "react"
+import { NextPage } from "next";
 import { Container, Row } from "react-bootstrap";
 import Layout from "../components/layout"
 
-const About:FunctionComponent = () => {
+const About:NextPage = () => {
   return (
     <Layout>
       <Container className="my-4">

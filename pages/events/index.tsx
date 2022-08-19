@@ -1,12 +1,10 @@
 import type { NextPage } from 'next'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
+import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../../components/postCard';
 
 import { getAllEventsAsc } from '../../services/eventServices';
 import Layout from '../../components/layout';
-import { EventType } from '../../types/EventType';
+import EventType from '../../types/EventType';
 
 type Props = {
   upcomingEvents: EventType[]
@@ -64,7 +62,8 @@ export const getStaticProps = async () => {
     props: {
       upcomingEvents,
       expiredEvents
-    }
+    },
+    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
   }
 }
 

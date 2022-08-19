@@ -1,32 +1,30 @@
-import { serialize } from 'next-mdx-remote/serialize'
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 import Layout from "../../components/layout";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { FunctionComponent } from 'react';
-import { GetStaticProps } from 'next'
+import { Container, Col, Row } from 'react-bootstrap';
+import { NextPage, GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { getAllEvents, getEvent } from '../../services/eventServices';
-import { EventType } from '../../types/EventType';
+import EventType from '../../types/EventType';
+import { getFormattedDate } from '../../services/timeServices';
+import ReactMarkdown from 'react-markdown';
 
 type Props = {
-  event: EventType,
-  mdxSource: MDXRemoteSerializeResult
+  event: EventType
 }
 
-const EventPage: FunctionComponent<Props> = ({ event: { title, eventDate }, mdxSource}) => {
+const EventPage: NextPage<Props> = ({ event: { title, eventDate, body }}) => {
   return (
     <Layout>
       <Container className='my-4'>
         <Row>
           <h1>{title}</h1>
-          <h3 className='text-muted'>{new Date(eventDate).toDateString()}</h3>
+          <h3 className='text-muted'>{getFormattedDate(eventDate)}</h3>
           <hr />
         </Row>
         <Row>
           <Col sm={8}>
-            <MDXRemote {...mdxSource}  />
+            <ReactMarkdown>
+              { body }
+            </ReactMarkdown>
           </Col>
         </Row>
       </Container>
@@ -50,13 +48,12 @@ interface IParams extends ParsedUrlQuery {
 export const getStaticProps:GetStaticProps = async (context) => {
   const {slug} = context.params as IParams;
   const event = await getEvent(slug);
-  const mdxSource = await serialize(event.body);
 
   return {
     props: {
-      event,
-      mdxSource
-    }
+      event
+    },
+    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
   }
 }
 
