@@ -13,7 +13,7 @@ const Faq: NextPage<Props> = ({ faqs }) => {
 
   const renderQuestion = (index: number, title: string, body:any) => {
     return (
-      <Accordion.Item eventKey={index.toString()}>
+      <Accordion.Item key={title} eventKey={index.toString()}>
         <Accordion.Header>{title}</Accordion.Header>
         <Accordion.Body>
           <ReactMarkdown>
@@ -47,7 +47,8 @@ const Faq: NextPage<Props> = ({ faqs }) => {
 }
 
 export const getStaticProps:GetStaticProps = async () => {
-  const faqs = await getAllFaqs();
+  const allFaqs = await getAllFaqs();
+  const faqs = allFaqs.sort((a, b) => a.title.localeCompare(b.title));
 
   return {
     props: {
