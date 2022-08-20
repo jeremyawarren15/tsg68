@@ -72,8 +72,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       upcomingEvents
-    },
-    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
+    }
   }
 }
 

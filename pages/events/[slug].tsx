@@ -37,7 +37,7 @@ export const getStaticPaths = async () => {
   const paths = events.map(({slug}) => ({ params: { slug } }))
   return {
     paths,
-    fallback: false
+    fallback: 'blocking'
   }
 }
 
@@ -52,8 +52,7 @@ export const getStaticProps:GetStaticProps = async (context) => {
   return {
     props: {
       event
-    },
-    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
+    }
   }
 }
 
