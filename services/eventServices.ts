@@ -8,7 +8,8 @@ export const getEvent = async (id: string) => {
     content_type: "events",
     "sys.id": id
   });
-  console.log(items)
+
+  if (items.length < 1) return null;
 
   return items[0].fields;
 };

@@ -49,6 +49,8 @@ export const getStaticProps:GetStaticProps = async (context) => {
   const { id } = context.params as IParams;
   const event = await getEvent(id);
 
+  if (!event) return { notFound: true };
+
   return {
     props: {
       event

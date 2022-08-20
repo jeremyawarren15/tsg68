@@ -14,7 +14,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   try {
     await Promise.all([
-      res.revalidate(`/events/${id}`),
+      res.revalidate(`/events/${id}`, {unstable_onlyGenerated:false}),
       res.revalidate('/'),
       res.revalidate('/events')
     ])
