@@ -34,7 +34,7 @@ const EventPage: NextPage<Props> = ({ event: { title, eventDate, body }}) => {
 
 export const getStaticPaths = async () => {
   const events = await getAllEvents();
-  const paths = events.map(({slug}) => ({ params: { slug } }))
+  const paths = events.map(({id}) => ({ params: { id } }))
   return {
     paths,
     fallback: 'blocking'
@@ -42,12 +42,12 @@ export const getStaticPaths = async () => {
 }
 
 interface IParams extends ParsedUrlQuery {
-  slug: string
+  id: string
 }
 
 export const getStaticProps:GetStaticProps = async (context) => {
-  const {slug} = context.params as IParams;
-  const event = await getEvent(slug);
+  const { id } = context.params as IParams;
+  const event = await getEvent(id);
 
   return {
     props: {

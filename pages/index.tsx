@@ -20,7 +20,7 @@ const Home: NextPage<Props> = ({ upcomingEvents }) => {
     if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
     return upcomingEvents.map((post) => (
-      <Col sm={4} key={post.slug} className="mb-3">
+      <Col sm={4} key={post.id} className="mb-3">
         <PostCard post={post} />
       </Col>
     ))
