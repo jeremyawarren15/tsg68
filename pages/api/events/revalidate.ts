@@ -2,7 +2,7 @@ import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
   const token = req.query.token;
-  const slug = req.query.slug;
+  const slug = req.body.fields.slug['en-US'];
 
   if (token !== process.env.REVALIDATION_SECRET) {
     return res.status(401).json({ message: "You are not authorized to access this endpoint." });
