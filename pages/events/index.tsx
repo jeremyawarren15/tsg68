@@ -55,7 +55,7 @@ const EventsIndex: NextPage<Props> = ({ upcomingEvents, expiredEvents }) => {
 export const getStaticProps = async () => {
   const events = await getAllEventsAsc();
 
-  const upcomingEvents = events.filter(post => new Date(post.eventDate) >= new Date());
+  const upcomingEvents = events.filter(post => new Date(post.eventDate) <= new Date());
   const expiredEvents = events.filter(post => new Date(post.eventDate) < new Date());
 
   return {
