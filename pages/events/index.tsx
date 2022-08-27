@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../../components/postCard';
 
-import { getAllEventsAsc } from '../../services/eventServices';
+import { getAllCategorizedEvents, getAllEventsAsc } from '../../services/eventServices';
 import Layout from '../../components/layout';
 import EventType from '../../types/EventType';
 
@@ -53,10 +53,7 @@ const EventsIndex: NextPage<Props> = ({ upcomingEvents, expiredEvents }) => {
 };
 
 export const getStaticProps = async () => {
-  const events = await getAllEventsAsc();
-
-  const upcomingEvents = events.filter(post => new Date(post.eventDate) <= new Date());
-  const expiredEvents = events.filter(post => new Date(post.eventDate) < new Date());
+  const {upcomingEvents, expiredEvents} = await getAllCategorizedEvents();
 
   return {
     props: {

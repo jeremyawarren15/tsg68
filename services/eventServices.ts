@@ -29,11 +29,28 @@ export const getAllEvents = async () => {
 };
 
 export const getAllEventsDesc = async () => {
-  const events = await getAllEvents()
-  return events.sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime());
+  return sortDatesDesc(await getAllEvents());
 };
 
 export const getAllEventsAsc = async () => {
-  const events = await getAllEvents()
-  return events.sort((a, b) => new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime());
+  return sortDatesAsc(await getAllEvents());
 };
+
+export const getAllCategorizedEvents = async () => {
+  const events = await getAllEvents();
+  const upcomingEvents = events.filter(post => new Date(post.eventDate) >= new Date());
+  const expiredEvents = events.filter(post => new Date(post.eventDate) < new Date());
+
+  return {
+    upcomingEvents: sortDatesAsc(upcomingEvents),
+    expiredEvents: sortDatesDesc(expiredEvents)
+  };
+}
+
+const sortDatesDesc = (events:EventType[]) => {
+  return events.sort((a, b) => new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime());
+}
+
+const sortDatesAsc = (events:EventType[]) => {
+  return events.sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime());
+}
