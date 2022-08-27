@@ -2,14 +2,9 @@ import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
   const token = req.query.token;
-  const id = req.body.sys.id;
 
   if (token !== process.env.REVALIDATION_SECRET) {
     return res.status(401).json({ message: "You are not authorized to access this endpoint." });
-  }
-
-  if (!id) {
-    return res.status(400).json({ message: "Could not complete request because slug was missing." });
   }
 
   try {
