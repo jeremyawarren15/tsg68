@@ -53,8 +53,7 @@ export const getStaticProps:GetStaticProps = async () => {
   return {
     props: {
       faqs
-    },
-    revalidate: parseInt(process.env.REVALIDATE_DELAY || '1')
+    }
   }
 }
 
