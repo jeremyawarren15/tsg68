@@ -6,7 +6,27 @@ import Link from 'next/link'
 import style from "../styles/DefaultNavbar.module.css";
 import { Routes } from "../constants/routes";
 
+import { useSession, signIn, signOut } from "next-auth/react"
+import { render } from 'react-dom';
+
 const DefaultNavbar: FunctionComponent = () => {
+  const {data, status} = useSession();
+
+  const renderLogin = () => {
+    console.log(data)
+    if (data?.user) return (
+      <Nav>
+        <button className="btn btn-outline-light" onClick={() => signOut()}>Sign Out</button>
+      </Nav>
+    );
+
+    return (
+      <Nav>
+        <button className="btn btn-outline-light" onClick={() => signIn()}>Sign In</button>
+      </Nav>
+    )
+  }
+
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: "#d10a1b" }}>
       <Container>
@@ -35,6 +55,7 @@ const DefaultNavbar: FunctionComponent = () => {
           <Nav>
             <Nav.Link href="https://docs.google.com/forms/d/e/1FAIpQLScvqY4kwtT_bvMHGplOFZ7YYS8KayHzdocagW_HN0TrpraruQ/viewform?usp=sf_link">Register</Nav.Link>
           </Nav>
+          {renderLogin()}
         </Navbar.Collapse>
       </Container>
     </Navbar>

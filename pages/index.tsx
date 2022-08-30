@@ -59,7 +59,7 @@ const Home: NextPage<Props> = ({ upcomingEvents }) => {
   )
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const events = await getAllEventsAsc()
   const upcomingEvents =
     events
