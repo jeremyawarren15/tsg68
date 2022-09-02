@@ -8,6 +8,9 @@ const prisma = new PrismaClient;
 export default NextAuth({
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: 'jwt'
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,

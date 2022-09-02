@@ -18,7 +18,6 @@ export const getAllEvents = async () => {
   const client = getClient();
 
   const { items } = await client.getEntries<EventType>({content_type: "events"});
-  console.log(items)
 
   return items.map((item) => {
     const id = item.sys.id;

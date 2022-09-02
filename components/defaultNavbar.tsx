@@ -7,21 +7,21 @@ import style from "../styles/DefaultNavbar.module.css";
 import { Routes } from "../constants/routes";
 
 import { useSession, signIn, signOut } from "next-auth/react"
-import { render } from 'react-dom';
 
 const DefaultNavbar: FunctionComponent = () => {
   const {data, status} = useSession();
 
   const renderLogin = () => {
-    console.log(data)
-    if (data?.user) return (
-      <Nav>
-        <button className="btn btn-outline-light" onClick={() => signOut()}>Sign Out</button>
-      </Nav>
-    );
+    if (data?.user) {
+      return (
+        <Nav className='ms-auto'>
+          <button className="btn btn-outline-light" onClick={() => signOut()}>Sign Out</button>
+        </Nav>
+      );
+    }
 
     return (
-      <Nav>
+      <Nav className='ms-auto'>
         <button className="btn btn-outline-light" onClick={() => signIn()}>Sign In</button>
       </Nav>
     )
@@ -43,9 +43,12 @@ const DefaultNavbar: FunctionComponent = () => {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ms-auto">
-            <NavLink href={Routes.Events}>Events</NavLink>
-          </Nav>
+          {
+            data &&
+            <Nav>
+              <NavLink href={Routes.Events}>Events</NavLink>
+            </Nav>
+          }
           <Nav>
             <NavLink href={Routes.Faq}>FAQs</NavLink>
           </Nav>
