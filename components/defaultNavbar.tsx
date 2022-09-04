@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import Image from 'next/image';
-import { Nav, Navbar, Container } from 'react-bootstrap';
+import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap';
 import NavLink from '../components/navLink'
 import Link from 'next/link'
 import style from "../styles/DefaultNavbar.module.css";
@@ -9,16 +9,33 @@ import { Routes } from "../constants/routes";
 import { useSession, signIn, signOut } from "next-auth/react"
 
 const DefaultNavbar: FunctionComponent = () => {
-  const {data, status} = useSession();
+  const {data} = useSession();
 
   const renderLogin = () => {
     if (data?.user) {
       return (
-        <Nav className='ms-auto'>
-          <button className="btn btn-outline-light" onClick={() => signOut()}>Sign Out</button>
-        </Nav>
-      );
-    }
+        <NavDropdown className={`ms-auto ${style.toggle}`} align="end" title={
+          <Image
+            src={data.user.image as string}
+            className="rounded"
+            height={40}
+            width={40}
+            alt="Black and White Portrait of a Man"
+          />
+        }>
+          <NavDropdown.Header>{data.user.name}</NavDropdown.Header>
+          <NavDropdown.Divider />
+          <NavDropdown.Item disabled>Account</NavDropdown.Item>
+          <NavDropdown.Item disabled>Settings</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item onClick={() => signOut({
+            callbackUrl: Routes.Home
+          })}>
+            Sign Out
+          </NavDropdown.Item>
+        </NavDropdown>
+      )
+    };
 
     return (
       <Nav className='ms-auto'>
