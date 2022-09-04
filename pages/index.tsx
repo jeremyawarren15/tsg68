@@ -1,4 +1,5 @@
-import type { NextPage } from 'next'
+import { ReactElement } from 'react'
+import type { NextPageWithLayout } from './_app';
 import Layout from '../components/layout'
 import { Container, Row, Col } from 'react-bootstrap'
 import campBackground from '../public/camp.jpg'
@@ -16,7 +17,7 @@ type Props = {
   upcomingEvents: EventType[]
 };
 
-const Home: NextPage<Props> = ({ upcomingEvents }) => {
+const Home: NextPageWithLayout<Props> = ({ upcomingEvents }) => {
   const { data } = useSession();
 
   const renderPosts = () => {
@@ -31,36 +32,34 @@ const Home: NextPage<Props> = ({ upcomingEvents }) => {
 
   return (
     <>
-      <Layout>
-        <FullWidthImageContainer
-          image={campBackground}
-          quality={65}
-          alt="Bonfire"
-        >
+      <FullWidthImageContainer
+        image={campBackground}
+        quality={65}
+        alt="Bonfire"
+      >
+        <Row>
+          <Col sm={5}>
+            <h1>TSG - Troop 68</h1>
+            <p>"He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God."</p>
+            <p>- Micah 6:8</p>
+          </Col>
+        </Row>
+      </FullWidthImageContainer>
+      <Container className="pt-3">
+        <Row>
+          <h2>Welcome</h2>
+          <p>Troop 68 is the first troop in the Indianapolis area for Troops of Saint George. Our home parish is St. John the Evangelist Catholic Church in downtown Indianapolis, but we are open to members from other parishes at this time.</p>
+        </Row>
+      </Container>
+      {
+        data &&
+        <Container className="pb-3">
+          <Link href={Routes.Events}><h2>Upcoming Events</h2></Link>
           <Row>
-            <Col sm={5}>
-              <h1>TSG - Troop 68</h1>
-              <p>"He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God."</p>
-              <p>- Micah 6:8</p>
-            </Col>
-          </Row>
-        </FullWidthImageContainer>
-        <Container className="pt-3">
-          <Row>
-            <h2>Welcome</h2>
-            <p>Troop 68 is the first troop in the Indianapolis area for Troops of Saint George. Our home parish is St. John the Evangelist Catholic Church in downtown Indianapolis, but we are open to members from other parishes at this time.</p>
+            {renderPosts()}
           </Row>
         </Container>
-        {
-          data &&
-          <Container className="pb-3">
-            <Link href={Routes.Events}><h2>Upcoming Events</h2></Link>
-            <Row>
-              {renderPosts()}
-            </Row>
-          </Container>
-        }
-      </Layout>
+      }
     </>
   )
 }
@@ -81,6 +80,14 @@ export const getServerSideProps = async () => {
       upcomingEvents
     }
   }
+}
+
+Home.getLayout = (page: ReactElement) => {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  );
 }
 
 export default Home

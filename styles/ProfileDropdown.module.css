@@ -1,0 +1,7 @@
+.toggle a::after {
+  display: none;
+}
+
+.toggle a span {
+  vertical-align: middle !important;
+}

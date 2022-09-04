@@ -1,17 +1,18 @@
-import type { NextPage } from 'next'
+import { ReactNode } from 'react';
+import { NextPageWithLayout } from '../_app';
 import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../../components/postCard';
 
-import { getAllCategorizedEvents, getAllEventsAsc } from '../../services/eventServices';
-import Layout from '../../components/layout';
+import { getAllCategorizedEvents } from '../../services/eventServices';
 import EventType from '../../types/EventType';
+import SidebarLayout from '../../components/sidebarLayout';
 
 type Props = {
   upcomingEvents: EventType[]
   expiredEvents: EventType[]
 };
 
-const EventsIndex: NextPage<Props> = ({ upcomingEvents, expiredEvents }) => {
+const EventsIndex: NextPageWithLayout<Props> = ({ upcomingEvents, expiredEvents }) => {
   const renderUpcomingEvents = () => {
     if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
@@ -38,17 +39,15 @@ const EventsIndex: NextPage<Props> = ({ upcomingEvents, expiredEvents }) => {
   }
 
   return (
-    <Layout>
-      <Container>
-        <Row>
-          <h1 className="my-4">Upcoming Events</h1>
-          {renderUpcomingEvents()}
-        </Row>
-        <Row>
-          {renderPastEvents()}
-        </Row>
-      </Container>
-    </Layout>
+    <Container >
+      <Row>
+        <h1 className="my-4">Upcoming Events</h1>
+        {renderUpcomingEvents()}
+      </Row>
+      <Row>
+        {renderPastEvents()}
+      </Row>
+    </Container>
   );
 };
 
@@ -61,6 +60,14 @@ export const getStaticProps = async () => {
       expiredEvents
     }
   }
+}
+
+EventsIndex.getLayout = (page: ReactNode) => {
+  return (
+    <SidebarLayout>
+      { page }
+    </SidebarLayout>
+  )
 }
 
 export default EventsIndex;

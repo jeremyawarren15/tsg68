@@ -1,16 +1,17 @@
+import { ReactNode } from "react";
 import Layout from "../components/layout"
 import { Accordion, Container, Row } from 'react-bootstrap'
 import { getAllFaqs } from '../services/faqService';
 import FaqType from "../types/FaqType";
-import { NextPage, GetStaticProps } from 'next'
+import { GetStaticProps } from 'next'
 import ReactMarkdown from 'react-markdown';
+import { NextPageWithLayout } from "./_app";
 
 type Props = {
   faqs: FaqType[]
 }
 
-const Faq: NextPage<Props> = ({ faqs }) => {
-
+const Faq: NextPageWithLayout<Props> = ({ faqs }) => {
   const renderQuestion = (index: number, title: string, body:any) => {
     return (
       <Accordion.Item key={title} eventKey={index.toString()}>
@@ -29,20 +30,18 @@ const Faq: NextPage<Props> = ({ faqs }) => {
   }
 
   return (
-    <Layout>
-      <Container className="my-4">
-        <Row>
-          <h1>FAQs</h1>
-          <p>Here is a list of questions that we frequently get from people. If you have any questions about Troop 68 you are welcome to email <a href="mailto:jeremy@tsg68.org">jeremy@tsg68.org</a>.</p>
-        </Row>
+    <Container className="my-4">
+      <Row>
+        <h1>FAQs</h1>
+        <p>Here is a list of questions that we frequently get from people. If you have any questions about Troop 68 you are welcome to email <a href="mailto:jeremy@tsg68.org">jeremy@tsg68.org</a>.</p>
+      </Row>
 
-        <Row>
-          <Accordion>
-            { renderAllQuestions() }
-          </Accordion>
-        </Row>
-      </Container>
-    </Layout>
+      <Row>
+        <Accordion>
+          { renderAllQuestions() }
+        </Accordion>
+      </Row>
+    </Container>
   )
 }
 
@@ -55,6 +54,14 @@ export const getStaticProps:GetStaticProps = async () => {
       faqs
     }
   }
+}
+
+Faq.getLayout = (page: ReactNode) => {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
 }
 
 export default Faq;

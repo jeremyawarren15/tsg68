@@ -1,49 +1,14 @@
 import { FunctionComponent } from 'react';
 import Image from 'next/image';
-import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap';
-import NavLink from '../components/navLink'
+import { Nav, Navbar, Container } from 'react-bootstrap';
+import NavLink from './navLink'
 import Link from 'next/link'
-import style from "../styles/DefaultNavbar.module.css";
+import style from "../styles/Navbar.module.css";
 import { Routes } from "../constants/routes";
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import { signIn } from "next-auth/react"
 
 const DefaultNavbar: FunctionComponent = () => {
-  const {data} = useSession();
-
-  const renderLogin = () => {
-    if (data?.user) {
-      return (
-        <NavDropdown className={`ms-auto ${style.toggle}`} align="end" title={
-          <Image
-            src={data.user.image as string}
-            className="rounded"
-            height={40}
-            width={40}
-            alt="Black and White Portrait of a Man"
-          />
-        }>
-          <NavDropdown.Header>{data.user.name}</NavDropdown.Header>
-          <NavDropdown.Divider />
-          <NavDropdown.Item disabled>Account</NavDropdown.Item>
-          <NavDropdown.Item disabled>Settings</NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item onClick={() => signOut({
-            callbackUrl: Routes.Home
-          })}>
-            Sign Out
-          </NavDropdown.Item>
-        </NavDropdown>
-      )
-    };
-
-    return (
-      <Nav className='ms-auto'>
-        <button className="btn btn-outline-light" onClick={() => signIn()}>Sign In</button>
-      </Nav>
-    )
-  }
-
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: "#d10a1b" }}>
       <Container>
@@ -60,12 +25,6 @@ const DefaultNavbar: FunctionComponent = () => {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          {
-            data &&
-            <Nav>
-              <NavLink href={Routes.Events}>Events</NavLink>
-            </Nav>
-          }
           <Nav>
             <NavLink href={Routes.Faq}>FAQs</NavLink>
           </Nav>
@@ -75,7 +34,9 @@ const DefaultNavbar: FunctionComponent = () => {
           <Nav>
             <Nav.Link href="https://docs.google.com/forms/d/e/1FAIpQLScvqY4kwtT_bvMHGplOFZ7YYS8KayHzdocagW_HN0TrpraruQ/viewform?usp=sf_link">Register</Nav.Link>
           </Nav>
-          {renderLogin()}
+          <Nav className='ms-auto'>
+            <button className="btn btn-outline-light" onClick={() => signIn()}>Sign In</button>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
