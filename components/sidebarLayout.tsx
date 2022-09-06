@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { ReactNode } from 'react'
 import React, { FunctionComponent } from "react";
 import AuthedNavbar from './authedNavbar';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Nav, Navbar } from 'react-bootstrap';
 import Footer from "./footer";
 
 type Props = {
@@ -18,8 +18,11 @@ const SidebarLayout: FunctionComponent<Props> = ({ children }) => {
       <AuthedNavbar />
       <Container>
         <Row>
-          <Col sm={3} >
-            sidebar
+          <Col sm={3} className='my-4' >
+            <Nav className="flex-column">
+              <Nav.Link>Events</Nav.Link>
+              <Nav.Link>Faq</Nav.Link>
+            </Nav>
           </Col>
           <Col sm={9}>
             {children}
