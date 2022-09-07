@@ -12,6 +12,11 @@ type Props = {
 }
 
 const EventPage: NextPage<Props> = ({ event: { title, eventDate, body }}) => {
+  const renderers = {
+    //This custom renderer changes how images are rendered
+    //we use it to constrain the max width of an image to its container
+  };
+
   return (
     <Layout>
       <Container className='my-4'>
@@ -22,7 +27,26 @@ const EventPage: NextPage<Props> = ({ event: { title, eventDate, body }}) => {
         </Row>
         <Row>
           <Col sm={8}>
-            <ReactMarkdown>
+            <ReactMarkdown
+              components={{
+                img: ({
+                  alt,
+                  src,
+                  title,
+                }: {
+                  alt?: string;
+                  src?: string;
+                  title?: string;
+                }) => (
+                  <img
+                    alt={alt}
+                    src={src}
+                    title={title}
+                    style={{ maxWidth: '100%' }}
+                  />
+                ),
+              }}
+            >
               { body }
             </ReactMarkdown>
           </Col>
