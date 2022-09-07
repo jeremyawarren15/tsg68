@@ -29,3 +29,18 @@ a {
 footer {
   margin-top: auto;
 }
+
+.image-container {
+  width: 100%;
+}
+
+.image-container>span {
+  position: unset !important;
+}
+
+.image-container>span>.image {
+  object-fit: contain;
+  width: 100% !important;
+  position: relative !important;
+  height: unset !important;
+}

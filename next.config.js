@@ -16,6 +16,11 @@ module.exports = withPWA({
           hostname: 'lh3.googleusercontent.com',
           pathname: '/a-/**',
         },
+        {
+          protocol: 'https',
+          hostname: 'images.ctfassets.net',
+          pathname: '/**',
+        }
       ],
     },
   },
