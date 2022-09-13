@@ -15,7 +15,7 @@ const ProfileDropdown:FunctionComponent<Props> = ({name, image}) => {
     <NavDropdown className={`${style.toggle}`} align="end" title={
       <Image
         src={image}
-        className="rounded"
+        className="rounded border border-light"
         height={40}
         width={40}
         alt="Black and White Portrait of a Man"

@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import { Nav, Navbar, Container } from 'react-bootstrap';
+import NavLink from '../components/navLink'
 import Image from 'next/image';
 import Link from 'next/link'
 import ProfileDropdown from './profileDropdown';
@@ -15,6 +16,7 @@ const AuthedNavbar: FunctionComponent = () => {
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: "#d10a1b" }}>
       <Container>
+        <Navbar.Toggle />
         <Link href={Routes.Home} passHref>
           <Navbar.Brand className={style.brand}>
             <Image
@@ -27,6 +29,14 @@ const AuthedNavbar: FunctionComponent = () => {
           </Navbar.Brand>
         </Link>
         <ProfileDropdown name={data.user.name as string} image={data.user.image as string} />
+        <Navbar.Collapse id='topCollapse'>
+          <Nav>
+            <NavLink href={Routes.Faq}>FAQs</NavLink>
+          </Nav>
+          <Nav>
+            <NavLink href={Routes.About}>About</NavLink>
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   )
