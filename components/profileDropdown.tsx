@@ -1,7 +1,7 @@
 import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap';
 import Image from 'next/image';
 import { Routes } from '../constants/routes';
-import style from "../styles/ProfileDropdown.module.css";
+import style from "../styles/ProfileDropdown.module.scss";
 import { FunctionComponent } from 'react';
 import { signOut } from 'next-auth/react';
 

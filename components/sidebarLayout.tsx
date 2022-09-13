@@ -2,11 +2,10 @@ import Head from 'next/head'
 import { ReactNode } from 'react'
 import React, { FunctionComponent } from "react";
 import AuthedNavbar from './authedNavbar';
-import { Container, Row, Col, Nav, Navbar } from 'react-bootstrap';
+import { Container, Row, Col, Nav } from 'react-bootstrap';
 import NavLink from '../components/navLink';
 import { Routes } from '../constants/routes';
 import Footer from "./footer";
-import styles from '../styles/Sidebar.module.css';
 
 type Props = {
   children?: ReactNode
