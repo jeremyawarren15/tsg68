@@ -9,6 +9,7 @@ import { getFormattedDate } from '../../services/timeServices';
 import SidebarLayout from "../../components/sidebarLayout";
 import { getAllEvents } from '../../services/eventServices';
 import Markdown from '../../components/markdown';
+import AttendanceButton from '../../components/attendanceButton';
 
 type Props = {
   event: EventType
@@ -25,6 +26,7 @@ const EventPage: NextPageWithLayout<Props> = ({ event: { title, eventDate, body 
     <Container className='my-4'>
       <h1>{title}</h1>
       <h3 className='text-muted'>{getFormattedDate(eventDate)}</h3>
+      <AttendanceButton />
       <hr />
       { event }
     </Container>

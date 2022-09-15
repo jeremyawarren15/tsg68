@@ -1,3 +1,5 @@
+$tsgRed: rgb(209, 10, 27);
+
 @mixin headings {
 
   h1,
@@ -55,6 +57,26 @@ footer {
 @media(min-width: 992px) {
   #topCollapse {
     display: none !important;
+  }
+}
+
+#sidebar {
+  .nav {
+    a {
+      width: 100%;
+      color: black;
+
+
+      &:hover:not(.active) {
+        background-color: lighten($tsgRed, 53%);
+        color: black;
+      }
+    }
+
+    .active {
+      background-color: $tsgRed;
+      color: white;
+    }
   }
 }
 

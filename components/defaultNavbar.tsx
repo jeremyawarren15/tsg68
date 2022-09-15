@@ -29,9 +29,6 @@ const DefaultNavbar: FunctionComponent = () => {
             <NavLink href={Routes.Faq}>FAQs</NavLink>
           </Nav>
           <Nav>
-            <NavLink href={Routes.About}>About</NavLink>
-          </Nav>
-          <Nav>
             <Nav.Link href="https://docs.google.com/forms/d/e/1FAIpQLScvqY4kwtT_bvMHGplOFZ7YYS8KayHzdocagW_HN0TrpraruQ/viewform?usp=sf_link">Register</Nav.Link>
           </Nav>
           <Nav className='ms-auto'>

@@ -2,10 +2,9 @@ import Head from 'next/head'
 import { ReactNode } from 'react'
 import React, { FunctionComponent } from "react";
 import AuthedNavbar from './authedNavbar';
-import { Container, Row, Col, Nav } from 'react-bootstrap';
-import NavLink from '../components/navLink';
-import { Routes } from '../constants/routes';
+import { Container, Row, Col } from 'react-bootstrap';
 import Footer from "./footer";
+import Sidebar from "./sidebar";
 
 type Props = {
   children?: ReactNode
@@ -20,15 +19,10 @@ const SidebarLayout: FunctionComponent<Props> = ({ children }) => {
       <AuthedNavbar />
       <Container>
         <Row>
-          <Col lg={3} id="sidebar">
-            <Nav>
-              <NavLink href={Routes.Faq}>FAQs</NavLink>
-            </Nav>
-            <Nav>
-              <NavLink href={Routes.About}>About</NavLink>
-            </Nav>
+          <Col lg={2} id="sidebar" className='mt-4'>
+            <Sidebar />
           </Col>
-          <Col lg={9}>
+          <Col lg={10}>
             {children}
           </Col>
         </Row>

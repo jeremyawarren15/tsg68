@@ -33,9 +33,6 @@ const AuthedNavbar: FunctionComponent = () => {
           <Nav>
             <NavLink href={Routes.Faq}>FAQs</NavLink>
           </Nav>
-          <Nav>
-            <NavLink href={Routes.About}>About</NavLink>
-          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
