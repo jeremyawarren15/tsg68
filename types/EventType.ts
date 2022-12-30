@@ -4,8 +4,8 @@ type EventType = {
   slug: string,
   description: string,
   body: string,
-  eventDate: Date,
-  publishDate: Date
+  date: Date,
+  created: Date
 };
 
 export default EventType;

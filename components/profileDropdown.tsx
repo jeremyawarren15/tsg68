@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { Routes } from '../constants/routes';
 import style from "../styles/ProfileDropdown.module.scss";
 import { FunctionComponent } from 'react';
-import { signOut } from 'next-auth/react';
 
 type Props = {
   name: string,
@@ -26,9 +25,7 @@ const ProfileDropdown:FunctionComponent<Props> = ({name, image}) => {
       <NavDropdown.Item disabled>Account</NavDropdown.Item>
       <NavDropdown.Item disabled>Settings</NavDropdown.Item>
       <NavDropdown.Divider />
-      <NavDropdown.Item onClick={() => signOut({
-        callbackUrl: Routes.Home
-      })}>
+      <NavDropdown.Item onClick={() => {}}>
         Sign Out
       </NavDropdown.Item>
     </NavDropdown>

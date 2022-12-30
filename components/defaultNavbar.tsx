@@ -6,8 +6,6 @@ import Link from 'next/link'
 import style from "../styles/Navbar.module.css";
 import { Routes } from "../constants/routes";
 
-import { signIn } from "next-auth/react"
-
 const DefaultNavbar: FunctionComponent = () => {
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: "#d10a1b" }}>
@@ -32,7 +30,7 @@ const DefaultNavbar: FunctionComponent = () => {
             <Nav.Link href="https://docs.google.com/forms/d/e/1FAIpQLScvqY4kwtT_bvMHGplOFZ7YYS8KayHzdocagW_HN0TrpraruQ/viewform?usp=sf_link">Register</Nav.Link>
           </Nav>
           <Nav className='ms-auto'>
-            <button className="btn btn-outline-light" onClick={() => signIn()}>Sign In</button>
+            <button className="btn btn-outline-light" onClick={() => {}}>Sign In</button>
           </Nav>
         </Navbar.Collapse>
       </Container>

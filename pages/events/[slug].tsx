@@ -15,7 +15,7 @@ type Props = {
   event: EventType
 }
 
-const EventPage: NextPageWithLayout<Props> = ({ event: { title, eventDate, body }}) => {
+const EventPage: NextPageWithLayout<Props> = ({ event: { title, date, body }}) => {
   const [event, setEvent] = useState<ReactElement|null>(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const EventPage: NextPageWithLayout<Props> = ({ event: { title, eventDate, body 
   return (
     <Container className='my-4'>
       <h1>{title}</h1>
-      <h3 className='text-muted'>{getFormattedDate(eventDate)}</h3>
+      <h3 className='text-muted'>{getFormattedDate(date)}</h3>
       <AttendanceButton />
       <hr />
       { event }
@@ -34,12 +34,12 @@ const EventPage: NextPageWithLayout<Props> = ({ event: { title, eventDate, body 
 }
 
 interface IParams extends ParsedUrlQuery {
-  id: string
+  slug: string
 }
 
 export const getStaticPaths:GetStaticPaths = async () => {
   const events = await getAllEvents();
-  const paths = events.map(({ id }) => ({ params: { id } }))
+  const paths = events.map(({ slug }) => ({ params: { slug } }))
   return {
     paths,
     fallback: 'blocking'
@@ -47,8 +47,8 @@ export const getStaticPaths:GetStaticPaths = async () => {
 }
 
 export const getStaticProps:GetStaticProps = async (context) => {
-  const { id } = context.params as IParams;
-  const event = await getEvent(id);
+  const { slug } = context.params as IParams;
+  const event = await getEvent(slug);
 
   if (!event) return { notFound: true };
 

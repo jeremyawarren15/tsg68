@@ -11,15 +11,11 @@ import { Routes } from '../constants/routes';
 import EventType from '../types/EventType';
 import { getAllEventsAsc } from '../services/eventServices';
 
-import { useSession } from 'next-auth/react';
-
 type Props = {
   upcomingEvents: EventType[]
 };
 
 const Home: NextPageWithLayout<Props> = ({ upcomingEvents }) => {
-  const { data } = useSession();
-
   const renderPosts = () => {
     if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
@@ -52,7 +48,6 @@ const Home: NextPageWithLayout<Props> = ({ upcomingEvents }) => {
         </Row>
       </Container>
       {
-        data &&
         <Container className="pb-3">
           <Link href={Routes.Events}><h2>Upcoming Events</h2></Link>
           <Row>
@@ -66,13 +61,14 @@ const Home: NextPageWithLayout<Props> = ({ upcomingEvents }) => {
 
 export const getServerSideProps = async () => {
   const events = await getAllEventsAsc()
+  console.log(events)
 
   const upcomingEvents =
     events
-      .filter(event => new Date(event.eventDate) > new Date())
+      .filter(event => new Date(event.date) > new Date())
       .slice(0,3)
       .sort(function (a, b) {
-        return  new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
+        return  new Date(a.date).getTime() - new Date(b.date).getTime();
       });
 
   return {

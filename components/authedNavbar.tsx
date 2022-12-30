@@ -6,12 +6,8 @@ import Link from 'next/link'
 import ProfileDropdown from './profileDropdown';
 import style from "../styles/Navbar.module.css";
 import { Routes } from "../constants/routes";
-import { useSession } from "next-auth/react"
 
 const AuthedNavbar: FunctionComponent = () => {
-  const { data } = useSession();
-
-  if (!data?.user) return null;
 
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: "#d10a1b" }}>
@@ -28,7 +24,7 @@ const AuthedNavbar: FunctionComponent = () => {
             <span className='ms-2'>Troop 68</span>
           </Navbar.Brand>
         </Link>
-        <ProfileDropdown name={data.user.name as string} image={data.user.image as string} />
+        <ProfileDropdown name={"Change This" as string} image={"" as string} />
         <Navbar.Collapse id='topCollapse'>
           <Nav>
             <NavLink href={Routes.Faq}>FAQs</NavLink>
