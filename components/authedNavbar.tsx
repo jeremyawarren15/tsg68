@@ -8,7 +8,6 @@ import style from "../styles/Navbar.module.css";
 import { Routes } from "../constants/routes";
 
 const AuthedNavbar: FunctionComponent = () => {
-
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: "#d10a1b" }}>
       <Container>
@@ -24,7 +23,7 @@ const AuthedNavbar: FunctionComponent = () => {
             <span className='ms-2'>Troop 68</span>
           </Navbar.Brand>
         </Link>
-        <ProfileDropdown name={"Change This" as string} image={"" as string} />
+        <ProfileDropdown />
         <Navbar.Collapse id='topCollapse'>
           <Nav>
             <NavLink href={Routes.Faq}>FAQs</NavLink>

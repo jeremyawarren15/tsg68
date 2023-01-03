@@ -1,42 +1,74 @@
 import {FunctionComponent, useEffect, useState} from 'react';
 import {Dropdown} from 'react-bootstrap';
+import client from '../services/pocketbaseService';
 
-const AttendanceButton: FunctionComponent = () => {
+type Props = {
+  slug: string
+}
+
+const AttendanceButton: FunctionComponent<Props> = ({slug}) => {
   const buttonDetails = {
-    pending: {
+    "pending": {
       variant: "primary",
       text: "Pending"
     },
-    attending: {
+    "attending": {
       variant: "success",
       text: "Attending"
     },
-    declined: {
-      variant: "error",
+    "declined": {
+      variant: "danger",
       text: "Declined"
     }
   }
 
-  const [button, setButton] = useState(buttonDetails.pending);
-
-  const getStatus = async () => {
-    const res = await fetch("http://localhost:3000/api/events/7fh0QgxdGiZKGuKplfIWF6/reservation")
-    const data = await res.json();
-  }
+  const [button, setButton] = useState(undefined);
 
   useEffect(() => {
-    console.log(getStatus())
-  }, [])
+    client.collection("responses").getFullList(1, {
+      filter: `event.slug = "${slug}" && user.id = "${client.authStore.model.id}"`
+    }).then((res) => {
+      if (res.length === 0) {
+        setButton(buttonDetails.pending)
+      } else {
+        setButton(buttonDetails[res[0].response])
+      }
+    })
+  }, [slug])
 
-  const updateReservation = async (state: {text: string, variant: string}) => {
-    const response = await fetch("http://localhost:3000/api/events/7fh0QgxdGiZKGuKplfIWF6/reservations", {
-      method: "POST",
-      body: JSON.stringify({
-        state: state
-      })
-    });
+  const updateReservation = async (state) => {
+    client.collection("responses").getFullList(1, {
+      filter: `event.slug = "${slug}" && user.id = "${client.authStore.model.id}"`
+    }).then((responses) => {
+      if (responses.length == 0) {
+        client.collection("events").getFullList(undefined, {
+          filter: `slug = "${slug}"`
+        }).then((event) => {
+          const data = {
+            "user": client.authStore.model.id,
+            "event": event[0].id,
+            "response": state
+          }
+          client.collection("responses").create(data)
+        })
+      } else {
+        const response = responses[0];
+        client.collection("events").getFullList(undefined, {
+          filter: `slug = "${slug}"`
+        }).then((event) => {
+          const data = {
+            "user": client.authStore.model.id,
+            "event": event[0].id,
+            "response": state
+          }
+          client.collection("responses").update(response.id, data)
+        })
+      }
+      setButton(buttonDetails[state])
+    })
   }
 
+  if (!slug || !button) return null;
 
   return (
     <Dropdown>
@@ -45,8 +77,8 @@ const AttendanceButton: FunctionComponent = () => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item onClick={() => updateReservation(buttonDetails.attending)}>Attend</Dropdown.Item>
-        <Dropdown.Item onClick={() => updateReservation(buttonDetails.declined)}>Decline</Dropdown.Item>
+        <Dropdown.Item onClick={() => updateReservation("attending")}>Attend</Dropdown.Item>
+        <Dropdown.Item onClick={() => updateReservation("declined")}>Decline</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   )

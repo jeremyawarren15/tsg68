@@ -1,16 +1,15 @@
 import EventType from '../types/EventType';
-import PocketBase from 'pocketbase';
+import client from './pocketbaseService';
 
-const pb = new PocketBase('http://127.0.0.1:8090');
 export const getEvent = async (slug: string) => {
-  const records = await pb.collection('events').getFullList(undefined, {
+  const records = await client.collection('events').getFullList(undefined, {
     filter: `slug = "${slug}"`
   });
   return records[0].export() as EventType;
 };
 
 export const getAllEvents = async () => {
-  const events = await pb.collection('events').getFullList(undefined, {
+  const events = await client.collection('events').getFullList(undefined, {
     sort: '-date',
   })
   return events.map(event => event.export() as EventType);

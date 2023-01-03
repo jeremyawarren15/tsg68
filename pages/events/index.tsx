@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { NextPageWithLayout } from '../_app';
 import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../../components/postCard';
@@ -12,7 +12,17 @@ type Props = {
   expiredEvents: EventType[]
 };
 
-const EventsIndex: NextPageWithLayout<Props> = ({ upcomingEvents, expiredEvents }) => {
+const EventsIndex: NextPageWithLayout<Props> = () => {
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [expiredEvents, setExpiredEvents] = useState([]);
+
+  useEffect(() => {
+    getAllCategorizedEvents().then(({upcomingEvents, expiredEvents}) => {
+      setUpcomingEvents(upcomingEvents);
+      setExpiredEvents(expiredEvents);
+    });
+  }, [])
+
   const renderUpcomingEvents = () => {
     if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
@@ -50,17 +60,6 @@ const EventsIndex: NextPageWithLayout<Props> = ({ upcomingEvents, expiredEvents 
     </Container>
   );
 };
-
-export const getStaticProps = async () => {
-  const {upcomingEvents, expiredEvents} = await getAllCategorizedEvents();
-
-  return {
-    props: {
-      upcomingEvents,
-      expiredEvents
-    }
-  }
-}
 
 EventsIndex.getLayout = (page: ReactNode) => {
   return (

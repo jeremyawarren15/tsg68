@@ -1,17 +1,12 @@
 import { ReactNode } from "react";
 import Layout from "../components/layout"
 import { Accordion, Container, Row } from 'react-bootstrap'
-import { getAllFaqs } from '../services/faqService';
 import FaqType from "../types/FaqType";
-import { GetStaticProps } from 'next'
 import ReactMarkdown from 'react-markdown';
 import { NextPageWithLayout } from "./_app";
 
-type Props = {
-  faqs: FaqType[]
-}
-
-const Faq: NextPageWithLayout<Props> = ({ faqs }) => {
+const Faq: NextPageWithLayout = () => {
+  const faqs = []
   const renderQuestion = (index: number, title: string, body:any) => {
     return (
       <Accordion.Item key={title} eventKey={index.toString()}>
@@ -43,17 +38,6 @@ const Faq: NextPageWithLayout<Props> = ({ faqs }) => {
       </Row>
     </Container>
   )
-}
-
-export const getStaticProps:GetStaticProps = async () => {
-  const allFaqs = await getAllFaqs();
-  const faqs = allFaqs.sort((a, b) => a.title.localeCompare(b.title));
-
-  return {
-    props: {
-      faqs
-    }
-  }
 }
 
 Faq.getLayout = (page: ReactNode) => {

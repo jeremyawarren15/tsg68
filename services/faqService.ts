@@ -1,4 +1,3 @@
-import getClient from '../services/contentfulService';
 import FaqType from '../types/FaqType';
 
 export const getFaq = async (slug: string): Promise<FaqType> => {

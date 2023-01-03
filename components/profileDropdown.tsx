@@ -3,17 +3,25 @@ import Image from 'next/image';
 import { Routes } from '../constants/routes';
 import style from "../styles/ProfileDropdown.module.scss";
 import { FunctionComponent } from 'react';
+import client from '../services/pocketbaseService';
+import { useRouter } from 'next/router';
+import { useAuthContext } from '../context/authContext';
 
-type Props = {
-  name: string,
-  image: string
-}
+const ProfileDropdown:FunctionComponent = () => {
+  const {name} = client.authStore.model;
+  const router = useRouter();
+  const {setLoggedIn} = useAuthContext();
 
-const ProfileDropdown:FunctionComponent<Props> = ({name, image}) => {
+  const signOut = () => {
+    client.authStore.clear();
+    setLoggedIn(false);
+    router.push("/");
+  }
+
   return (
     <NavDropdown className={`${style.toggle}`} align="end" title={
       <Image
-        src={image}
+        src={""}
         className="rounded border border-light"
         height={40}
         width={40}
@@ -25,7 +33,7 @@ const ProfileDropdown:FunctionComponent<Props> = ({name, image}) => {
       <NavDropdown.Item disabled>Account</NavDropdown.Item>
       <NavDropdown.Item disabled>Settings</NavDropdown.Item>
       <NavDropdown.Divider />
-      <NavDropdown.Item onClick={() => {}}>
+      <NavDropdown.Item onClick={() => signOut()}>
         Sign Out
       </NavDropdown.Item>
     </NavDropdown>

@@ -1,62 +1,42 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { GetStaticPaths, GetStaticProps } from 'next'
 import { NextPageWithLayout } from "../_app";
-import { ParsedUrlQuery } from 'querystring'
 import { getEvent } from '../../services/eventServices';
-import EventType from '../../types/EventType';
 import { getFormattedDate } from '../../services/timeServices';
 import SidebarLayout from "../../components/sidebarLayout";
-import { getAllEvents } from '../../services/eventServices';
 import Markdown from '../../components/markdown';
 import AttendanceButton from '../../components/attendanceButton';
+import { useRouter } from 'next/router';
 
-type Props = {
-  event: EventType
-}
-
-const EventPage: NextPageWithLayout<Props> = ({ event: { title, date, body }}) => {
-  const [event, setEvent] = useState<ReactElement|null>(null);
+const EventPage: NextPageWithLayout = () => {
+  const router = useRouter();
+  const {slug} = router.query;
+  const [event, setEvent] = useState(null);
+  const [eventText, setEventText] = useState<ReactElement|null>(null);
 
   useEffect(() => {
-    setEvent(<Markdown>{body}</Markdown>)
-  }, [body])
+    if (!slug) return;
+    getEvent(slug as string).then((e) => {
+      setEvent(e);
+      setEventText(<Markdown>{e.body}</Markdown>)
+    });
+  }, [slug])
+
+  if (!event) {
+    return (
+      <h1>Not Found</h1>
+    )
+  }
 
   return (
     <Container className='my-4'>
-      <h1>{title}</h1>
-      <h3 className='text-muted'>{getFormattedDate(date)}</h3>
-      <AttendanceButton />
+      <h1>{event.title}</h1>
+      <h3 className='text-muted'>{getFormattedDate(new Date)}</h3>
+      <AttendanceButton slug={slug as string} />
       <hr />
-      { event }
+      { eventText }
     </Container>
   );
-}
-
-interface IParams extends ParsedUrlQuery {
-  slug: string
-}
-
-export const getStaticPaths:GetStaticPaths = async () => {
-  const events = await getAllEvents();
-  const paths = events.map(({ slug }) => ({ params: { slug } }))
-  return {
-    paths,
-    fallback: 'blocking'
-  }
-}
-
-export const getStaticProps:GetStaticProps = async (context) => {
-  const { slug } = context.params as IParams;
-  const event = await getEvent(slug);
-
-  if (!event) return { notFound: true };
-
-  return {
-    props: {
-      event
-    }
-  }
 }
 
 EventPage.getLayout = (page: ReactElement) => {

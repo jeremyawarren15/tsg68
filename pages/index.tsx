@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import type { NextPageWithLayout } from './_app';
 import Layout from '../components/layout'
 import { Container, Row, Col } from 'react-bootstrap'
@@ -15,7 +15,21 @@ type Props = {
   upcomingEvents: EventType[]
 };
 
-const Home: NextPageWithLayout<Props> = ({ upcomingEvents }) => {
+const Home: NextPageWithLayout<Props> = () => {
+  const [upcomingEvents, setUpcomingEvents] = useState<EventType[]>([]);
+
+  useEffect(() => {
+    const events = getAllEventsAsc()
+    events.then((es) => {
+      const events = es.filter(event => new Date(event.date) > new Date())
+      .slice(0,3)
+      .sort(function (a, b) {
+        return  new Date(a.date).getTime() - new Date(b.date).getTime();
+      });
+      setUpcomingEvents(events)
+    })
+  }, [])
+
   const renderPosts = () => {
     if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
@@ -57,25 +71,6 @@ const Home: NextPageWithLayout<Props> = ({ upcomingEvents }) => {
       }
     </>
   )
-}
-
-export const getServerSideProps = async () => {
-  const events = await getAllEventsAsc()
-  console.log(events)
-
-  const upcomingEvents =
-    events
-      .filter(event => new Date(event.date) > new Date())
-      .slice(0,3)
-      .sort(function (a, b) {
-        return  new Date(a.date).getTime() - new Date(b.date).getTime();
-      });
-
-  return {
-    props: {
-      upcomingEvents
-    }
-  }
 }
 
 Home.getLayout = (page: ReactElement) => {
