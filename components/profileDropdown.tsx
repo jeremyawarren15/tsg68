@@ -10,22 +10,17 @@ import { useAuthContext } from '../context/authContext';
 const ProfileDropdown:FunctionComponent = () => {
   const {name} = client.authStore.model;
   const router = useRouter();
-  const {setLoggedIn} = useAuthContext();
+  const {signOut, avatarUrl} = useAuthContext();
 
-  const signOut = () => {
-    client.authStore.clear();
-    setLoggedIn(false);
-    router.push("/");
-  }
 
   return (
     <NavDropdown className={`${style.toggle}`} align="end" title={
       <Image
-        src={""}
+        src={avatarUrl}
         className="rounded border border-light"
         height={40}
         width={40}
-        alt="Black and White Portrait of a Man"
+        alt="Profile image"
       />
     }>
       <NavDropdown.Header>{name}</NavDropdown.Header>

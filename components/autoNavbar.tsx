@@ -5,7 +5,7 @@ import client from '../services/pocketbaseService';
 import { useAuthContext } from '../context/authContext';
 
 const AutoNavbar: FunctionComponent = () => {
-  const {loggedIn, setLoggedIn} = useAuthContext();
+  const {loggedIn} = useAuthContext();
 
   const renderNav = () => {
     if (loggedIn) return <AuthedNavbar />;

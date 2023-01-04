@@ -12,6 +12,9 @@ module.exports = withPWA({
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  images: {
+    domains: ["localhost", "127.0.0.1"],
+  },
   experimental: {
     images: {
       remotePatterns: [
@@ -24,8 +27,8 @@ module.exports = withPWA({
           protocol: 'https',
           hostname: 'images.ctfassets.net',
           pathname: '/**',
-        }
-      ],
+        },
+      ]
     },
   },
 })

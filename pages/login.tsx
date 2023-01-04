@@ -5,21 +5,13 @@ import { ReactElement } from 'react-markdown/lib/react-markdown';
 import Layout from '../components/layout';
 import { NextPageWithLayout } from './_app';
 import { useRouter } from 'next/router';
-import client from '../services/pocketbaseService';
 import { useAuthContext } from '../context/authContext';
 
 const Login: NextPageWithLayout= () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {setLoggedIn} = useAuthContext();
-
-  const login = async () => {
-    const userData = await client.collection('users').authWithPassword(email, password).then(() => {
-      setLoggedIn(true);
-      router.push("/");
-    });
-  }
+  const {signIn} = useAuthContext();
 
   return (
     <Form>
@@ -38,7 +30,7 @@ const Login: NextPageWithLayout= () => {
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
         <Form.Check type="checkbox" label="Check me out" />
       </Form.Group>
-      <Button variant="primary" type="button" onClick={(e) => login()}>
+      <Button variant="primary" type="button" onClick={(e) => signIn(email, password)}>
         Submit
       </Button>
     </Form>
