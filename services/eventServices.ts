@@ -10,7 +10,7 @@ export const getEvent = async (slug: string) => {
 
 export const getAllEvents = async () => {
   const events = await client.collection('events').getFullList(undefined, {
-    sort: '-date',
+    sort: '-start',
   })
   return events.map(event => event.export() as EventType);
 };
@@ -25,8 +25,8 @@ export const getAllEventsAsc = async () => {
 
 export const getAllCategorizedEvents = async () => {
   const events = await getAllEvents();
-  const upcomingEvents = events.filter(post => new Date(post.date) >= new Date());
-  const expiredEvents = events.filter(post => new Date(post.date) < new Date());
+  const upcomingEvents = events.filter(event => new Date(event.start) >= new Date());
+  const expiredEvents = events.filter(event => new Date(event.start) < new Date());
 
   return {
     upcomingEvents: sortDatesAsc(upcomingEvents),
@@ -35,9 +35,9 @@ export const getAllCategorizedEvents = async () => {
 }
 
 const sortDatesDesc = (events:EventType[]) => {
-  return events.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return events.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
 }
 
 const sortDatesAsc = (events:EventType[]) => {
-  return events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  return events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 }

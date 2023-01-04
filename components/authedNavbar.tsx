@@ -26,6 +26,9 @@ const AuthedNavbar: FunctionComponent = () => {
         <ProfileDropdown />
         <Navbar.Collapse id='topCollapse'>
           <Nav>
+            <NavLink href={Routes.Events}>Events</NavLink>
+          </Nav>
+          <Nav>
             <NavLink href={Routes.Faq}>FAQs</NavLink>
           </Nav>
         </Navbar.Collapse>

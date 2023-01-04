@@ -21,10 +21,10 @@ const Home: NextPageWithLayout<Props> = () => {
   useEffect(() => {
     const events = getAllEventsAsc()
     events.then((es) => {
-      const events = es.filter(event => new Date(event.date) > new Date())
+      const events = es.filter(event => new Date(event.start) > new Date())
       .slice(0,3)
       .sort(function (a, b) {
-        return  new Date(a.date).getTime() - new Date(b.date).getTime();
+        return  new Date(a.start).getTime() - new Date(b.start).getTime();
       });
       setUpcomingEvents(events)
     })

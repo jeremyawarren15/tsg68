@@ -1,3 +1,5 @@
+import {format} from 'small-date';
+
 export const getFormattedDate = (date: Date): string => {
-  return new Date(date).toDateString();
+  return format(new Date(date), 'DD MMM dd yyyy hh:mm a')
 }

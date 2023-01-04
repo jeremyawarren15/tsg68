@@ -4,7 +4,8 @@ type EventType = {
   slug: string,
   description: string,
   body: string,
-  date: Date,
+  start: Date,
+  end: Date,
   created: Date
 };
 
