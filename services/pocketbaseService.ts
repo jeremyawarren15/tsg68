@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
 
-const client = new PocketBase('http://127.0.0.1:8090');
+const client = new PocketBase('https://tsg68-api.fly.dev');
 
 export default client

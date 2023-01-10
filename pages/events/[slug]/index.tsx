@@ -1,13 +1,13 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
-import { NextPageWithLayout } from "../_app";
-import { getEvent } from '../../services/eventServices';
-import { getFormattedDate } from '../../services/timeServices';
-import SidebarLayout from "../../components/sidebarLayout";
-import Markdown from '../../components/markdown';
-import AttendanceButton from '../../components/attendanceButton';
+import { NextPageWithLayout } from "../../_app";
+import { getEvent } from '../../../services/eventServices';
+import { getFormattedDate } from '../../../services/timeServices';
+import SidebarLayout from "../../../components/sidebarLayout";
+import Markdown from '../../../components/markdown';
+import AttendanceButton from '../../../components/attendanceButton';
 import { useRouter } from 'next/router';
-import AttendeesModal from '../../components/attendeesModal';
+import AttendeesModal from '../../../components/attendeesModal';
 
 const EventPage: NextPageWithLayout = () => {
   const router = useRouter();

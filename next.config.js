@@ -8,27 +8,17 @@ const withPWA = require('next-pwa')({
 })
 
 module.exports = withPWA({
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'tsg68-api.fly.dev',
+        pathname: '/**'
+      }
+    ]
+  },
   reactStrictMode: false,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
-  },
-  images: {
-    domains: ["localhost", "127.0.0.1"],
-  },
-  experimental: {
-    images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: 'lh3.googleusercontent.com',
-          pathname: '/a-/**',
-        },
-        {
-          protocol: 'https',
-          hostname: 'images.ctfassets.net',
-          pathname: '/**',
-        },
-      ]
-    },
   },
 })
