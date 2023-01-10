@@ -1,12 +1,20 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Layout from "../components/layout"
 import { Accordion, Container, Row } from 'react-bootstrap'
 import FaqType from "../types/FaqType";
 import ReactMarkdown from 'react-markdown';
 import { NextPageWithLayout } from "./_app";
+import { getAllFaqs } from "../services/faqService";
 
 const Faq: NextPageWithLayout = () => {
-  const faqs = []
+  const [faqs, setFaqs] = useState<FaqType[]>([]);
+
+  useEffect(() => {
+    getAllFaqs().then((response) => {
+      setFaqs(response.reverse());
+    })
+  }, [])
+
   const renderQuestion = (index: number, title: string, body:any) => {
     return (
       <Accordion.Item key={title} eventKey={index.toString()}>

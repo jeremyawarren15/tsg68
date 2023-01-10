@@ -12,7 +12,6 @@ const AttendeesModal = ({show, eventId, handleClose}) => {
         expand: 'user'
       }).then((r) => setResponses(r))
     }
-    console.log(responses)
   }, [show, eventId])
 
   return (

@@ -26,45 +26,21 @@ const AttendanceButton: FunctionComponent<Props> = ({slug, setShowModal}) => {
   const [button, setButton] = useState(undefined);
 
   useEffect(() => {
-    client.collection("responses").getFullList(1, {
-      filter: `event.slug = "${slug}" && user.id = "${client.authStore.model.id}"`
-    }).then((res) => {
-      if (res.length === 0) {
-        setButton(buttonDetails.pending)
-      } else {
-        setButton(buttonDetails[res[0].response])
-      }
+    client.send(`/response/${slug}`, {
+      method: "GET"
+    }).then((state) => {
+      setButton(buttonDetails[state])
     })
   }, [slug])
 
   const updateReservation = async (state) => {
-    client.collection("responses").getFullList(1, {
-      filter: `event.slug = "${slug}" && user.id = "${client.authStore.model.id}"`
-    }).then((responses) => {
-      if (responses.length == 0) {
-        client.collection("events").getFullList(undefined, {
-          filter: `slug = "${slug}"`
-        }).then((event) => {
-          const data = {
-            "user": client.authStore.model.id,
-            "event": event[0].id,
-            "response": state
-          }
-          client.collection("responses").create(data)
-        })
-      } else {
-        const response = responses[0];
-        client.collection("events").getFullList(undefined, {
-          filter: `slug = "${slug}"`
-        }).then((event) => {
-          const data = {
-            "user": client.authStore.model.id,
-            "event": event[0].id,
-            "response": state
-          }
-          client.collection("responses").update(response.id, data)
-        })
+    client.send("/response", {
+      method: "POST",
+      body: {
+        response: state,
+        event: slug
       }
+    }).then(() => {
       setButton(buttonDetails[state])
     })
   }

@@ -14,6 +14,11 @@ module.exports = withPWA({
         protocol: 'https',
         hostname: 'tsg68-api.fly.dev',
         pathname: '/**'
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        pathname: '/**'
       }
     ]
   },

@@ -7,6 +7,7 @@ import FullWidthImageContainer from '../components/fullWidthImageContainer'
 import PostCard from '../components/postCard';
 import Link from 'next/link'
 import { Routes } from '../constants/routes';
+import { useAuthContext } from '../context/authContext';
 
 import EventType from '../types/EventType';
 import { getAllEventsAsc } from '../services/eventServices';
@@ -17,20 +18,23 @@ type Props = {
 
 const Home: NextPageWithLayout<Props> = () => {
   const [upcomingEvents, setUpcomingEvents] = useState<EventType[]>([]);
+  const {loggedIn} = useAuthContext();
 
   useEffect(() => {
-    const events = getAllEventsAsc()
-    events.then((es) => {
-      const events = es.filter(event => new Date(event.start) > new Date())
-      .slice(0,3)
-      .sort(function (a, b) {
-        return  new Date(a.start).getTime() - new Date(b.start).getTime();
-      });
-      setUpcomingEvents(events)
-    })
-  }, [])
+    if (loggedIn) {
+      getAllEventsAsc().then((es) => {
+        const events = es.filter(event => new Date(event.start) > new Date())
+        .slice(0,3)
+        .sort(function (a, b) {
+          return  new Date(a.start).getTime() - new Date(b.start).getTime();
+        });
+        setUpcomingEvents(events)
+      })
+    }
+  }, [loggedIn])
 
   const renderPosts = () => {
+    if (!loggedIn) return (<h4>Please log in to see events.</h4>)
     if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
     return upcomingEvents.map((post) => (

@@ -10,7 +10,7 @@ const Sidebar = () => {
           <NavLink className='rounded' href={Routes.Events}>Events</NavLink>
         </Nav.Item>
         <Nav.Item>
-          <NavLink className='rounded' href={Routes.Faq}>FAQs</NavLink>
+          <NavLink className='rounded' href="#">Cadet Progress (coming soon)</NavLink>
         </Nav.Item>
       </Nav>
     </>
