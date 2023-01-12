@@ -2,18 +2,22 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import client from '../services/pocketbaseService';
 import { useRouter } from 'next/router';
 import { Routes } from '../constants/routes';
+import profile from '../public/profile.jpg';
+import { StaticImageData } from 'next/image';
 
 const AppContext = createContext(null);
 
 export function AuthProvider({children}) {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState("/profile.jpg");
+  const [avatarUrl, setAvatarUrl] = useState<string | StaticImageData>("/profile.jpg");
   const router = useRouter();
 
   const getAvatarUrl = async () => {
     const user = await client.collection('users').getOne(client.authStore.model.id);
-    const url = client.getFileUrl(user, user.avatar)
-    return url;
+    if (user.avatar) {
+      return client.getFileUrl(user, user.avatar)
+    }
+    return profile;
   }
 
   const signIn = async (email: string, password: string) => {

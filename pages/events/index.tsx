@@ -5,7 +5,7 @@ import PostCard from '../../components/postCard';
 
 import { getAllCategorizedEvents } from '../../services/eventServices';
 import EventType from '../../types/EventType';
-import SidebarLayout from '../../components/sidebarLayout';
+import Layout from '../../components/layout';
 
 type Props = {
   upcomingEvents: EventType[]
@@ -63,9 +63,9 @@ const EventsIndex: NextPageWithLayout<Props> = () => {
 
 EventsIndex.getLayout = (page: ReactNode) => {
   return (
-    <SidebarLayout>
+    <Layout>
       { page }
-    </SidebarLayout>
+    </Layout>
   )
 }
 

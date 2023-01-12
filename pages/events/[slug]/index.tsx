@@ -3,11 +3,11 @@ import { Button, Container } from 'react-bootstrap';
 import { NextPageWithLayout } from "../../_app";
 import { getEvent } from '../../../services/eventServices';
 import { getFormattedDate } from '../../../services/timeServices';
-import SidebarLayout from "../../../components/sidebarLayout";
 import Markdown from '../../../components/markdown';
 import AttendanceButton from '../../../components/attendanceButton';
 import { useRouter } from 'next/router';
 import AttendeesModal from '../../../components/attendeesModal';
+import Layout from '../../../components/layout';
 
 const EventPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -50,9 +50,9 @@ const EventPage: NextPageWithLayout = () => {
 
 EventPage.getLayout = (page: ReactElement) => {
   return (
-    <SidebarLayout>
+    <Layout>
       { page }
-    </SidebarLayout>
+    </Layout>
   )
 }
 

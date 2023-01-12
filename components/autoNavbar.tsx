@@ -1,7 +1,6 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent } from 'react';
 import AuthedNavbar from './authedNavbar';
 import DefaultNavbar from './defaultNavbar';
-import client from '../services/pocketbaseService';
 import { useAuthContext } from '../context/authContext';
 
 const AutoNavbar: FunctionComponent = () => {
