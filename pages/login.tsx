@@ -5,11 +5,9 @@ import Form from 'react-bootstrap/Form';
 import { ReactElement } from 'react-markdown/lib/react-markdown';
 import Layout from '../components/layout';
 import { NextPageWithLayout } from './_app';
-import { useRouter } from 'next/router';
 import { useAuthContext } from '../context/authContext';
 
 const Login: NextPageWithLayout= () => {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {signIn} = useAuthContext();
@@ -17,8 +15,7 @@ const Login: NextPageWithLayout= () => {
   return (
     <Container className="pt-3">
       <Row>
-        <Col></Col>
-        <Col xs={6}>
+        <Col lg={6} style={{marginLeft: "auto", marginRight: "auto"}}>
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
@@ -40,7 +37,6 @@ const Login: NextPageWithLayout= () => {
             </Button>
           </Form>
         </Col>
-        <Col></Col>
       </Row>
     </Container>
   );
