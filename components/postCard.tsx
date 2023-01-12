@@ -9,14 +9,14 @@ type Props = {
   post: EventType
 };
 
-const PostCard: FunctionComponent<Props> = ({ post: { title, eventDate , description, id}}) => {
+const PostCard: FunctionComponent<Props> = ({ post: { title, start, description, slug}}) => {
   return (
     <Card className="bg-light">
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{getFormattedDate(eventDate)}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">{getFormattedDate(start)}</Card.Subtitle>
         <Card.Text>{description}</Card.Text>
-        <Link href={Routes.Events + "/" + id} passHref>
+        <Link href={Routes.Events + "/" + slug} passHref>
           <Card.Link>Read More</Card.Link>
         </Link>
       </Card.Body>

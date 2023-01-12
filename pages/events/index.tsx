@@ -1,17 +1,28 @@
-import type { NextPage } from 'next'
+import { ReactNode, useEffect, useState } from 'react';
+import { NextPageWithLayout } from '../_app';
 import { Container, Col, Row } from 'react-bootstrap';
 import PostCard from '../../components/postCard';
 
-import { getAllCategorizedEvents, getAllEventsAsc } from '../../services/eventServices';
-import Layout from '../../components/layout';
+import { getAllCategorizedEvents } from '../../services/eventServices';
 import EventType from '../../types/EventType';
+import Layout from '../../components/layout';
 
 type Props = {
   upcomingEvents: EventType[]
   expiredEvents: EventType[]
 };
 
-const EventsIndex: NextPage<Props> = ({ upcomingEvents, expiredEvents }) => {
+const EventsIndex: NextPageWithLayout<Props> = () => {
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [expiredEvents, setExpiredEvents] = useState([]);
+
+  useEffect(() => {
+    getAllCategorizedEvents().then(({upcomingEvents, expiredEvents}) => {
+      setUpcomingEvents(upcomingEvents);
+      setExpiredEvents(expiredEvents);
+    });
+  }, [])
+
   const renderUpcomingEvents = () => {
     if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
 
@@ -38,29 +49,24 @@ const EventsIndex: NextPage<Props> = ({ upcomingEvents, expiredEvents }) => {
   }
 
   return (
-    <Layout>
-      <Container>
-        <Row>
-          <h1 className="my-4">Upcoming Events</h1>
-          {renderUpcomingEvents()}
-        </Row>
-        <Row>
-          {renderPastEvents()}
-        </Row>
-      </Container>
-    </Layout>
+    <Container >
+      <Row>
+        <h1 className="my-4">Upcoming Events</h1>
+        {renderUpcomingEvents()}
+      </Row>
+      <Row>
+        {renderPastEvents()}
+      </Row>
+    </Container>
   );
 };
 
-export const getStaticProps = async () => {
-  const {upcomingEvents, expiredEvents} = await getAllCategorizedEvents();
-
-  return {
-    props: {
-      upcomingEvents,
-      expiredEvents
-    }
-  }
+EventsIndex.getLayout = (page: ReactNode) => {
+  return (
+    <Layout>
+      { page }
+    </Layout>
+  )
 }
 
 export default EventsIndex;

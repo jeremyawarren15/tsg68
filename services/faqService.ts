@@ -1,21 +1,8 @@
-import getClient from '../services/contentfulService';
 import FaqType from '../types/FaqType';
+import client from './pocketbaseService';
 
-export const getFaq = async (slug: string): Promise<FaqType> => {
-  const client = getClient();
-
-  const { items } = await client.getEntries<FaqType>({
-    content_type: "faq",
-    'fields.slug': slug
-  });
-
-  return items[0].fields;
-};
-
-export const getAllFaqs = async (): Promise<FaqType[]> => {
-  const client = getClient();
-
-  const { items } = await client.getEntries<FaqType>({content_type: "faq"});
-
-  return items.map((faq) => faq.fields);
-};
+export const getAllFaqs = (): Promise<FaqType[]> => {
+  return client.collection("faqs").getFullList<FaqType>(undefined, {
+    sort: "-title",
+  })
+}

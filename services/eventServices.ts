@@ -1,31 +1,18 @@
 import EventType from '../types/EventType';
-import getClient from '../services/contentfulService';
+import client from './pocketbaseService';
 
-export const getEvent = async (id: string) => {
-  const client = getClient();
-
-  const { items } = await client.getEntries<EventType>({
-    content_type: "events",
-    "sys.id": id
+export const getEvent = async (slug: string) => {
+  const records = await client.collection('events').getFullList(undefined, {
+    filter: `slug = "${slug}"`
   });
-
-  if (items.length < 1) return null;
-
-  return items[0].fields;
+  return records[0].export() as EventType;
 };
 
 export const getAllEvents = async () => {
-  const client = getClient();
-
-  const { items } = await client.getEntries<EventType>({content_type: "events"});
-  console.log(items)
-
-  return items.map((item) => {
-    const id = item.sys.id;
-    const event = {...item.fields};
-    event.id=id;
-    return event;
-  });
+  const events = await client.collection('events').getFullList(undefined, {
+    sort: '-start',
+  })
+  return events.map(event => event.export() as EventType);
 };
 
 export const getAllEventsDesc = async () => {
@@ -38,8 +25,8 @@ export const getAllEventsAsc = async () => {
 
 export const getAllCategorizedEvents = async () => {
   const events = await getAllEvents();
-  const upcomingEvents = events.filter(post => new Date(post.eventDate) >= new Date());
-  const expiredEvents = events.filter(post => new Date(post.eventDate) < new Date());
+  const upcomingEvents = events.filter(event => new Date(event.start) >= new Date());
+  const expiredEvents = events.filter(event => new Date(event.start) < new Date());
 
   return {
     upcomingEvents: sortDatesAsc(upcomingEvents),
@@ -48,9 +35,9 @@ export const getAllCategorizedEvents = async () => {
 }
 
 const sortDatesDesc = (events:EventType[]) => {
-  return events.sort((a, b) => new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime());
+  return events.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
 }
 
 const sortDatesAsc = (events:EventType[]) => {
-  return events.sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime());
+  return events.sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 }

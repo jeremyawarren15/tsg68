@@ -1,0 +1,11 @@
+.toggle {
+  a {
+    span {
+      vertical-align: middle !important;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+}
