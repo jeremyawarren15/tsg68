@@ -1,11 +1,12 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { NextPageWithLayout } from '../_app';
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row, Spinner } from 'react-bootstrap';
 import PostCard from '../../components/postCard';
 
 import { getAllCategorizedEvents } from '../../services/eventServices';
 import EventType from '../../types/EventType';
 import Layout from '../../components/layout';
+import { useAuthContext } from '../../context/authContext';
 
 type Props = {
   upcomingEvents: EventType[]
@@ -15,11 +16,18 @@ type Props = {
 const EventsIndex: NextPageWithLayout<Props> = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [expiredEvents, setExpiredEvents] = useState([]);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { loggedIn } = useAuthContext();
 
   useEffect(() => {
     getAllCategorizedEvents().then(({upcomingEvents, expiredEvents}) => {
       setUpcomingEvents(upcomingEvents);
       setExpiredEvents(expiredEvents);
+    }).catch(() => {
+      setIsError(true);
+    }).finally(() => {
+      setIsLoading(false)
     });
   }, [])
 
@@ -47,6 +55,19 @@ const EventsIndex: NextPageWithLayout<Props> = () => {
       </>
     );
   }
+
+  if (isLoading) return (
+    <div className='my-4' style={{marginLeft: "auto", marginRight: "auto"}}>
+      <Spinner variant='danger' />
+    </div>
+  )
+
+  if (!loggedIn || isError|| !event) return (
+    <Container className='my-4'>
+      <h1>Oops...</h1>
+      <p>Looks like we had trouble getting the events. Try again.</p>
+    </Container>
+  )
 
   return (
     <Container >
