@@ -1,5 +1,6 @@
 import {FunctionComponent, useEffect, useState} from 'react';
 import {Button, ButtonGroup, Dropdown, DropdownButton} from 'react-bootstrap';
+import { getCurrentUsersResponse } from '../services/eventServices';
 import client from '../services/pocketbaseService';
 
 type Props = {
@@ -26,9 +27,7 @@ const AttendanceButton: FunctionComponent<Props> = ({slug, setShowModal}) => {
   const [button, setButton] = useState(undefined);
 
   useEffect(() => {
-    client.send(`/response/${slug}`, {
-      method: "GET"
-    }).then((state) => {
+    getCurrentUsersResponse(slug).then((state) => {
       setButton(buttonDetails[state])
     })
   }, [slug])

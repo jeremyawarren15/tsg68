@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import client from "../services/pocketbaseService";
 import { Modal, Button } from "react-bootstrap";
+import { getAttending } from "../services/eventServices";
 
-const AttendeesModal = ({show, eventId, handleClose}) => {
+const AttendeesModal = ({show, slug, handleClose}) => {
   const [responses, setResponses] = useState([]);
 
   useEffect(() => {
     if (show) {
-      client.collection("responses").getFullList(undefined, {
-        filter: `event = "${eventId}" && response = "attending"`,
-        expand: 'user'
-      }).then((r) => setResponses(r))
+      getAttending(slug).then((r) => setResponses(r))
     }
-  }, [show, eventId])
+  }, [show, slug])
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -22,7 +19,7 @@ const AttendeesModal = ({show, eventId, handleClose}) => {
         <Modal.Body>
           <ul>
             {responses.map((e) => {
-              return <li key={e.id}>{e.expand.user.name}</li>
+              return <li key={e}>{e}</li>
             })}
           </ul>
         </Modal.Body>

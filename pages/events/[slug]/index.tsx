@@ -50,7 +50,7 @@ const EventPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <AttendeesModal show={showModal} eventId={event.id} handleClose={handleClose} />
+      <AttendeesModal show={showModal} slug={slug as string} handleClose={handleClose} />
       <Container className='my-4'>
         <h1>{event.title}</h1>
         <h3 className='text-muted'>{getFormattedDate(event.start)}</h3>
