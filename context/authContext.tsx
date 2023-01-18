@@ -10,6 +10,7 @@ const AppContext = createContext(null);
 export function AuthProvider({children}) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | StaticImageData>("/profile.jpg");
+  const user = client.authStore.model;
   const router = useRouter();
 
   const getAvatarUrl = async () => {
@@ -35,16 +36,19 @@ export function AuthProvider({children}) {
   }
 
   useEffect(() => {
-    setLoggedIn(client.authStore.model !== null);
-    if (client.authStore.model !== null) {
-      getAvatarUrl().then((url) => {
-        setAvatarUrl(url);
-      })
+    const {model, isValid} = client.authStore;
+    if (model !== null) {
+      if (isValid) {
+        setLoggedIn(true);
+        getAvatarUrl().then((url) => {
+          setAvatarUrl(url);
+        })
+      }
     }
   }, [])
 
   return (
-    <AppContext.Provider value={{loggedIn, avatarUrl, signIn, signOut}}>
+    <AppContext.Provider value={{loggedIn, avatarUrl, signIn, signOut, user}}>
       {children}
     </AppContext.Provider>
   );

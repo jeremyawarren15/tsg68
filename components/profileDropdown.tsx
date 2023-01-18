@@ -6,12 +6,11 @@ import { FunctionComponent } from 'react';
 import client from '../services/pocketbaseService';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '../context/authContext';
+import Link from 'next/link';
 
 const ProfileDropdown:FunctionComponent = () => {
   const {name} = client.authStore.model;
-  const router = useRouter();
   const {signOut, avatarUrl} = useAuthContext();
-
 
   return (
     <NavDropdown className={`${style.toggle}`} align="end" title={
@@ -25,7 +24,9 @@ const ProfileDropdown:FunctionComponent = () => {
     }>
       <NavDropdown.Header>{name}</NavDropdown.Header>
       <NavDropdown.Divider />
-      <NavDropdown.Item disabled>Account</NavDropdown.Item>
+      <Link href={Routes.Account} passHref>
+        <NavDropdown.Item>Account</NavDropdown.Item>
+      </Link>
       <NavDropdown.Item disabled>Settings</NavDropdown.Item>
       <NavDropdown.Divider />
       <NavDropdown.Item onClick={() => signOut()}>
