@@ -33,11 +33,10 @@ const AttendanceButton: FunctionComponent<Props> = ({slug, setShowModal}) => {
   }, [slug])
 
   const updateReservation = async (state) => {
-    client.send("/response", {
+    client.send(`/events/${slug}/response`, {
       method: "POST",
       body: {
         response: state,
-        event: slug
       }
     }).then(() => {
       setButton(buttonDetails[state])

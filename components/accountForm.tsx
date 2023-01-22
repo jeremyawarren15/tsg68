@@ -2,7 +2,7 @@ import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import client from "../services/pocketbaseService";
 
 const AccountForm = ({user}) => {
