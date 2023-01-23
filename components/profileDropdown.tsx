@@ -17,7 +17,6 @@ const ProfileDropdown:FunctionComponent<Props> = ({authData}) => {
     await fetch('/api/signout', { method: 'POST'})
     router.push(Routes.Home)
   }
-  console.log(authData.avatar)
 
   return (
     <NavDropdown className={`${style.toggle}`} align="end" title={

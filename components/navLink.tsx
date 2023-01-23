@@ -15,7 +15,7 @@ const NavLink: FunctionComponent<Props> = ({ className, children, href }) => {
 
   return (
     <Link href={href} passHref>
-      <Nav.Link className={className + " " + (router.pathname.indexOf(href.toString()) !== -1 ? "active" : "")}>{children}</Nav.Link>
+      <Nav.Link active={router.pathname === href} className={className || null}>{children}</Nav.Link>
     </Link>
   )
 }
