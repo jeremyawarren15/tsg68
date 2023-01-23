@@ -26,12 +26,5 @@ export default async function initPocketBase({
     pb.authStore.clear();
   }
 
-  // Update the last active date
-  if (pb.authStore.isValid && pb.authStore.model) {
-    await pb.collection("users").update(pb.authStore.model.id, {
-      lastActive: new Date(),
-    });
-  }
-
   return pb;
 }
