@@ -1,49 +1,20 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement } from 'react'
 import type { NextPageWithLayout } from './_app';
 import Layout from '../components/layout'
 import { Container, Row, Col } from 'react-bootstrap'
 import campBackground from '../public/camp.jpg'
 import FullWidthImageContainer from '../components/fullWidthImageContainer'
-import PostCard from '../components/postCard';
-import Link from 'next/link'
-import { Routes } from '../constants/routes';
-import { useAuthContext } from '../context/authContext';
 
 import EventType from '../types/EventType';
-import { getAllEventsAsc } from '../services/eventServices';
+import { GetServerSidePropsContext } from 'next';
+import initPocketBase from '../helpers/initPocketbase';
+import authHelper from '../helpers/authHelper';
 
 type Props = {
   upcomingEvents: EventType[]
 };
 
 const Home: NextPageWithLayout<Props> = () => {
-  const [upcomingEvents, setUpcomingEvents] = useState<EventType[]>([]);
-  const {loggedIn} = useAuthContext();
-
-  useEffect(() => {
-    if (loggedIn) {
-      getAllEventsAsc().then((es) => {
-        const events = es.filter(event => new Date(event.start) > new Date())
-        .slice(0,3)
-        .sort(function (a, b) {
-          return  new Date(a.start).getTime() - new Date(b.start).getTime();
-        });
-        setUpcomingEvents(events)
-      })
-    }
-  }, [loggedIn])
-
-  const renderPosts = () => {
-    if (!loggedIn) return (<h4>Please log in to see events.</h4>)
-    if (upcomingEvents.length < 1) return (<h4>There are no upcoming events scheduled</h4>);
-
-    return upcomingEvents.map((post) => (
-      <Col sm={4} key={post.id} className="mb-3">
-        <PostCard post={post} />
-      </Col>
-    ))
-  };
-
   return (
     <>
       <FullWidthImageContainer
@@ -65,21 +36,22 @@ const Home: NextPageWithLayout<Props> = () => {
           <p>Troop 68 is the first troop in the Indianapolis area for Troops of Saint George. Our home parish is St. John the Evangelist Catholic Church in downtown Indianapolis, but we are open to members from other parishes at this time.</p>
         </Row>
       </Container>
-      {
-        <Container className="pb-3">
-          <Link href={Routes.Events}><h2>Upcoming Events</h2></Link>
-          <Row>
-            {renderPosts()}
-          </Row>
-        </Container>
-      }
     </>
   )
 }
 
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const pb = await initPocketBase(context);
+  return {
+    props: {
+      authData: authHelper(pb),
+    }
+  }
+}
+
 Home.getLayout = (page: ReactElement) => {
   return (
-    <Layout>
+    <Layout authData={page.props.authData}>
       {page}
     </Layout>
   );

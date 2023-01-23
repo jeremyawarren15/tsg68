@@ -13,6 +13,7 @@ type UserType = {
   lastName: string | null;
   updated: string;
   verified: boolean;
+  phone_number: string;
 }
 
 export default UserType;

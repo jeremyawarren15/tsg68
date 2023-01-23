@@ -9,13 +9,14 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
-import client from '../services/pocketbaseService';
 import {setCookie} from 'cookies-next';
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
 import initPocketBase from '../helpers/initPocketbase';
 import authHelper from '../helpers/authHelper';
 import AuthDataType from '../types/AuthDataType';
+import PocketBase from 'pocketbase';
+import { Routes } from '../constants/routes';
 
 type Props = {
   authData: AuthDataType
@@ -34,8 +35,8 @@ const Login: NextPageWithLayout<Props> = () => {
   });
 
   const onSubmit = async ({email, password}) => {
-
-    await client.collection('users').authWithPassword(email, password).then(() => {
+    const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL)
+    await pb.collection('users').authWithPassword(email, password).then(() => {
       const authStoreLocalStorage = localStorage.getItem("pocketbase_auth");
       if (authStoreLocalStorage) {
         // Set the authStore cookie
@@ -49,7 +50,7 @@ const Login: NextPageWithLayout<Props> = () => {
         //Remove the authStore from localstorage
         localStorage.removeItem("pocketbase_auth");
 
-        router.push("/events");
+        router.push(Routes.Events);
       }
     }).catch((e) => {
       if (e.message === "Something went wrong while processing your request.") {
@@ -113,9 +114,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 }
 
-Login.getLayout = (page: ReactElement) => {
+Login.getLayout = (page) => {
   return (
-    <Layout authData={page.props}>
+    <Layout authData={page.props.authData}>
       {page}
     </Layout>
   );

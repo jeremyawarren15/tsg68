@@ -54,7 +54,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const records = await pb.collection('events').getFullList(undefined, {
     filter: `slug = "${slug}"`
   });
-  const event = records[0].export() as EventType;
+  const event = records.length > 0 ? records[0].export() as EventType : [];
   return {
     props: {
       authData: authHelper(pb),

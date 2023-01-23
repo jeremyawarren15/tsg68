@@ -2,14 +2,18 @@ import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { ReactElement } from "react-markdown/lib/react-markdown";
 import Layout from "../components/layout";
-import client from "../services/pocketbaseService";
+import PocketBase from 'pocketbase';
+import { GetServerSidePropsContext } from "next";
+import initPocketBase from "../helpers/initPocketbase";
+import authHelper from "../helpers/authHelper";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [requestSent, setRequestSent] = useState(false);
 
   const resetPassword = () => {
-    client.collection('users').requestPasswordReset(email).then(() => {
+    const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL)
+    pb.collection('users').requestPasswordReset(email).then(() => {
       setRequestSent(true);
     })
   }
@@ -48,9 +52,20 @@ const ResetPassword = () => {
   )
 }
 
-ResetPassword.getLayout = (page: ReactElement) => {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const pb = await initPocketBase(context);
+  return {
+    props: {
+      authData: {
+        ...authHelper(pb)
+      }
+    }
+  }
+}
+
+ResetPassword.getLayout = (page) => {
   return (
-    <Layout>
+    <Layout authData={page.props.authData}>
       {page}
     </Layout>
   );

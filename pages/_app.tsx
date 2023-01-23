@@ -4,7 +4,6 @@ import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import SSRProvider from 'react-bootstrap/SSRProvider'
 import { NextPage } from "next";
-import { AuthProvider } from "../context/authContext";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -20,9 +19,7 @@ function App({ Component, pageProps: { ...pageProps } }: AppPropsWithLayout) {
 
   return (
     <SSRProvider>
-      <AuthProvider>
-        { getLayout(<Component {...pageProps} />) }
-      </AuthProvider>
+      { getLayout(<Component {...pageProps} />) }
     </ SSRProvider>
   )
 }

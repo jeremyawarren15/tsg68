@@ -10,6 +10,7 @@ import initPocketBase from '../../helpers/initPocketbase';
 import { ReactElement } from 'react-markdown/lib/react-markdown';
 import authHelper from '../../helpers/authHelper';
 import AuthDataType from '../../types/AuthDataType';
+import { getYesterdayDateString } from '../../services/timeServices';
 
 type Props = {
   authData: AuthDataType,
@@ -50,8 +51,8 @@ const EventsIndex: NextPageWithLayout<Props> = ({authData: {isLoggedIn}, allEven
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const pb = await initPocketBase(context);
   const events = await pb.collection('events').getFullList(undefined, {
-    filter: `start > '2023-01-01 00:00:00'`,
-    sort: '-start',
+    filter: `start > '${getYesterdayDateString()}'`,
+    sort: '+start',
   })
   const allEvents = events.map(event => event.export() as EventType);
   return {
@@ -62,7 +63,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 }
 
-EventsIndex.getLayout = (page: ReactElement) => {
+EventsIndex.getLayout = (page) => {
   return (
     <Layout authData={page.props.authData}>
       { page }
