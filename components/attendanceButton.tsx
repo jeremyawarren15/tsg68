@@ -1,7 +1,5 @@
 import {FunctionComponent, useEffect, useState} from 'react';
 import {Button, ButtonGroup, Dropdown, DropdownButton} from 'react-bootstrap';
-import { getCurrentUsersResponse } from '../services/eventServices';
-import client from '../services/pocketbaseService';
 
 type Props = {
   slug: string,
@@ -21,23 +19,30 @@ const AttendanceButton: FunctionComponent<Props> = ({slug, setShowModal}) => {
     "declined": {
       variant: "danger",
       text: "Declined"
+    },
+    "loading": {
+      variant: "light",
+      text: "Loading..."
     }
   }
 
-  const [button, setButton] = useState(undefined);
+  const [button, setButton] = useState(buttonDetails["loading"]);
 
   useEffect(() => {
-    getCurrentUsersResponse(slug).then((state) => {
+    fetch(`/api/events/${slug}/response`,{
+      method: 'GET'
+    }).then(data => data.json()).then((state) => {
       setButton(buttonDetails[state])
     })
   }, [slug])
 
   const updateReservation = async (state) => {
-    client.send(`/events/${slug}/response`, {
+    const body = {
+      response: state
+    }
+    fetch(`/api/events/${slug}/response`, {
       method: "POST",
-      body: {
-        response: state,
-      }
+      body: JSON.stringify(body)
     }).then(() => {
       setButton(buttonDetails[state])
     })
