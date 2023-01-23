@@ -1,6 +1,5 @@
 type FaqType = {
   title: string,
-  slug: string,
   body: string
 }
 

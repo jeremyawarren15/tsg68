@@ -2,10 +2,14 @@ import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup';
-import { useEffect } from "react";
-import client from "../services/pocketbaseService";
+import { FunctionComponent, useEffect } from "react";
+import UserType from "../types/UserType";
 
-const AccountForm = ({user}) => {
+type Props = {
+  user: UserType
+}
+
+const AccountForm: FunctionComponent<Props> = ({user}) => {
   const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   const schema = yup.object().shape({
     name: yup.string().required("Name is required."),
@@ -19,11 +23,14 @@ const AccountForm = ({user}) => {
   });
 
   const onSubmit = (data) => {
-    client.collection('users').update(client.authStore.model.id, data).then((data) => {
+    fetch(`/api/users/${user.id}`, {
+      method: "POST",
+      body: JSON.stringify(data)
+    }).then((data) => data.json()).then((response) => {
       setTimeout(() => {
         reset(data)
       }, 3000);
-    });
+    })
   }
 
   const renderButton = () => {

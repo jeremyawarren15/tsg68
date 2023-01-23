@@ -1,13 +1,15 @@
 import { FunctionComponent } from 'react';
+import AuthDataType from '../types/AuthDataType';
 import AuthedNavbar from './authedNavbar';
 import DefaultNavbar from './defaultNavbar';
-import { useAuthContext } from '../context/authContext';
 
-const AutoNavbar: FunctionComponent = () => {
-  const {loggedIn} = useAuthContext();
+type Props = {
+  authData: AuthDataType
+}
 
+const AutoNavbar: FunctionComponent<Props> = ({authData}) => {
   const renderNav = () => {
-    if (loggedIn) return <AuthedNavbar />;
+    if (authData.isLoggedIn) return <AuthedNavbar authData={authData} />;
     return <DefaultNavbar />;
   }
 

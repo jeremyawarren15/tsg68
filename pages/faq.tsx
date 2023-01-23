@@ -1,20 +1,18 @@
-import { ReactNode, useEffect, useState } from "react";
 import Layout from "../components/layout"
 import { Accordion, Container, Row } from 'react-bootstrap'
 import FaqType from "../types/FaqType";
 import ReactMarkdown from 'react-markdown';
 import { NextPageWithLayout } from "./_app";
-import { getAllFaqs } from "../services/faqService";
+import { GetServerSidePropsContext } from "next";
+import initPocketBase from "../helpers/initPocketbase";
+import authHelper from "../helpers/authHelper";
+import { ReactElement } from "react-markdown/lib/react-markdown";
 
-const Faq: NextPageWithLayout = () => {
-  const [faqs, setFaqs] = useState<FaqType[]>([]);
+type Props = {
+  allFaqs: FaqType[]
+}
 
-  useEffect(() => {
-    getAllFaqs().then((response) => {
-      setFaqs(response.reverse());
-    })
-  }, [])
-
+const Faq: NextPageWithLayout<Props> = ({allFaqs}) => {
   const renderQuestion = (index: number, title: string, body:any) => {
     return (
       <Accordion.Item key={title} eventKey={index.toString()}>
@@ -29,7 +27,7 @@ const Faq: NextPageWithLayout = () => {
   };
 
   const renderAllQuestions = () => {
-    return faqs.map((question, index) => renderQuestion(index, question.title, question.body))
+    return allFaqs.map((question, index) => renderQuestion(index, question.title, question.body))
   }
 
   return (
@@ -48,9 +46,23 @@ const Faq: NextPageWithLayout = () => {
   )
 }
 
-Faq.getLayout = (page: ReactNode) => {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const pb = await initPocketBase(context);
+  const faqs = await pb.collection('faqs').getFullList(undefined, {
+    sort: '+title',
+  })
+  const allFaqs = faqs.map(faq => faq.export() as FaqType);
+  return {
+    props: {
+      authData: authHelper(pb),
+      allFaqs
+    }
+  }
+}
+
+Faq.getLayout = (page) => {
   return (
-    <Layout>
+    <Layout authData={page.props.authData}>
       {page}
     </Layout>
   )

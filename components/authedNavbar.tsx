@@ -6,8 +6,13 @@ import Link from 'next/link'
 import ProfileDropdown from './profileDropdown';
 import style from "../styles/Navbar.module.css";
 import { Routes } from "../constants/routes";
+import AuthDataType from '../types/AuthDataType';
 
-const AuthedNavbar: FunctionComponent = () => {
+type Props = {
+  authData: AuthDataType
+}
+
+const AuthedNavbar: FunctionComponent<Props> = ({authData}) => {
   const renderNavOptions = () => (
     <>
       <Nav>
@@ -38,7 +43,7 @@ const AuthedNavbar: FunctionComponent = () => {
           <div id="alternate">
             {renderNavOptions()}
           </div>
-          <ProfileDropdown />
+          <ProfileDropdown authData={authData} />
           <Navbar.Collapse id='topCollapse'>
             {renderNavOptions()}
           </Navbar.Collapse>

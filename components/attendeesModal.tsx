@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { getAttending } from "../services/eventServices";
 
 const AttendeesModal = ({show, slug, handleClose}) => {
   const [responses, setResponses] = useState([]);
 
   useEffect(() => {
     if (show) {
-      getAttending(slug).then((r) => setResponses(r))
+      fetch(`/api/events/${slug}/attending`, {
+        method: "GET"
+      }).then(d => d.json()).then((r) => setResponses(r))
     }
   }, [show, slug])
 
@@ -18,7 +19,7 @@ const AttendeesModal = ({show, slug, handleClose}) => {
         </Modal.Header>
         <Modal.Body>
           <ul>
-            {responses.map((e) => {
+            {responses?.map((e) => {
               return <li key={e}>{e}</li>
             })}
           </ul>
