@@ -1,8 +1,9 @@
+import { StaticImageData } from 'next/image';
 import UserType from './UserType';
 
 type AuthDataType = {
   isLoggedIn: boolean,
-  avatarUrl: string,
+  avatar: string | StaticImageData,
   userModel: UserType,
 }
 

@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/Button';
-import { Alert, Col, Container, FormGroup, Row } from 'react-bootstrap';
+import { Alert, Col, Container, FormGroup, Row, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { ReactElement } from 'react-markdown/lib/react-markdown';
 import Layout from '../components/layout';
@@ -25,6 +25,7 @@ type Props = {
 const Login: NextPageWithLayout<Props> = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const schema = yup.object().shape({
     email: yup.string().required("Email is required."),
@@ -35,6 +36,7 @@ const Login: NextPageWithLayout<Props> = () => {
   });
 
   const onSubmit = async ({email, password}) => {
+    setIsLoading(true);
     const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL)
     await pb.collection('users').authWithPassword(email, password).then(() => {
       const authStoreLocalStorage = localStorage.getItem("pocketbase_auth");
@@ -53,6 +55,7 @@ const Login: NextPageWithLayout<Props> = () => {
         router.push(Routes.Events);
       }
     }).catch((e) => {
+      setIsLoading(false)
       if (e.message === "Something went wrong while processing your request.") {
         setError("There was an issue communicating with the server. Try again later.")
       } else if (e.message === "Failed to authenticate.") {
@@ -67,6 +70,23 @@ const Login: NextPageWithLayout<Props> = () => {
     if (!error) return;
 
     return <Alert variant='danger'>{error}</Alert>
+  }
+
+  const renderButton = () => {
+    if (isLoading) return (
+      <Button disabled>
+        <Spinner
+          as="span"
+          animation="border"
+          size="sm"
+          role="status"
+          aria-hidden="true"
+          className='me-2'
+        />
+        Loading...
+      </Button>
+    )
+    return <Button type="submit">Submit</Button>
   }
 
   return (
@@ -94,9 +114,7 @@ const Login: NextPageWithLayout<Props> = () => {
             <FormGroup>
               <Link href="/reset-password">Reset Password</Link>
             </FormGroup>
-            <Button type="submit">
-              Submit
-            </Button>
+            { renderButton() }
           </Form>
         </Col>
       </Row>
